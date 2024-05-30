@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          SoftSync has highjack this place. Is eugene gay or nicholas gay?
+          SoftSync has highjack this place. 
         </p>
         <a
           className="App-link"
