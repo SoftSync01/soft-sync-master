@@ -8,3 +8,11 @@
 @import 'additional-styles/flatpickr.css';
 
 @import 'tailwindcss/utilities';
+
+.flex-container {
+    display: flex;
+    align-items: center; /* Vertically center */
+    justify-content: center; /* Horizontally center, if needed */
+    height: 12vh; /* Full height of the viewport or any specific height */
+}
+
