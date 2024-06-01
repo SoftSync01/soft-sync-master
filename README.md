@@ -1,33 +1,39 @@
-# Getting Started with Create React App
+# SoftSync Orbital 24
+SoftSync is a customisable Enterprise Resources Planning (ERP) application that aims to provide an all-in-one web platform for any enterprise needs
+\
+Currently it runs on React.js, Tailwindcss, and Vite.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# RoadMap
+To Be Added
 
-## Available Scripts
+## Setup Details
 
-In the project directory, you can run:
+SoftSync runs on React & Tailwindcss. Do ensure you have NPM and Node.js installed in your system. If you have not, you may do so on the Node.js website or [https://nodejs.org/en/download/prebuilt-installer](here).\
+\
+To ensure you have NPM & Node.js downloaded on your system, you can run the following code to check if you have it properly downloaded. It should show the version installed in your system.
+```
+node -v
+npm -v
+```
 
-### `npm start`
+### Project Setup
 
+```
+npm install
+```
+This setups all of the dependency and setups your system for the system.
+
+### Compilation and Development
+
+```
+npm run dev
+```
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+A link to your website will be displayed in the terminal bar.\
+A sample link will be [http://localhost:5176](http://localhost:5176). Access the link in your browser and the application will launch.
 
-The page will reload when you make changes.\
+Any changes made and saved will be updated realtime on the website.\
 You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 ### `npm run eject`
 
@@ -38,33 +44,3 @@ If you aren't satisfied with the build tool and configuration choices, you can `
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
