@@ -4,7 +4,24 @@ SoftSync is a customisable Enterprise Resources Planning (ERP) application that 
 Currently it runs on React.js, Tailwindcss, and Vite.
 
 # RoadMap
-To Be Added
+#### 1. Dashboard Sub-tab Navigation [Completed]
+#### 2. Customizable dashboard Cards with placeholders 
+#### 3. Website Hosting & Deployment
+#### 4. Login with Database Authentication
+#### 5. Finance Sub-Tab [Database Data extraction] with Dashboard Card population
+   - Teams/Project Earnings & Trends. [Visualized with Charts & Graphs]
+   - Project Fundings.
+   - Yearly/Monthly/Weekly Earnings & Spending [Visualized with Charts & Graphs]
+   - Profit & Loss Analysis
+#### 6. Crew Resourse Management Sub-Tab with Dashboard Card population [Scheduling, Personnel Allocation]
+   - Calender scheduling and events logging
+   - Personnel Availability [For Supervisor users & Above]
+   - Project Creation & Personnel Allocation [Manual and Automated Assignment]
+#### 7. Project Management Sub-Tab [Tasking list & Messaging function]
+   - Project Tasking allocation [Gannt Chart | Similar to Monday.com task Assignment]
+   - Deadline Creation & Important Events Alerts
+   - Messenger Function
+#### 8. Inventory Management Sub-Tab 
 
 ## Setup Details
 
