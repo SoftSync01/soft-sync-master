@@ -1,29 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NavLink, useLocation } from 'react-router-dom';
 import { auth } from "../firebase/firebase-config";
 import { signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 const Login = (props) => {
-    console.log(auth?.currentUser?.email);
-    
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [isSigningIn, setIsSingningIn] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
     const [userLoggedIn, setUserloggedIn] = useState(false);
-    const [currentUser, setCurrentUser] = useState('');
-    
-    const navigate = useNavigate()
-  
-    const onButtonClick = () => {
-        //Check if Valid Account
-        if(email === "1234"  && password === "1234"){
-            navigate("/dashboard")
-            return
+    const [currentUser, setCurrentUser] = useState(undefined);
+    console.log(auth?.currentUser?.email);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (auth?.currentUser?.email) {
+            navigate('/dashboard');
+            console.log("Current User:", auth?.currentUser?.email);
         }
-        
-    }
+    }, [auth?.currentUser?.email]);
 
     const logout = async () => {
         try {
@@ -33,55 +28,54 @@ const Login = (props) => {
         }
       };
 
-    const signUp = () => {
-        /*
+    const signUp = async() => {
         try{
         await createUserWithEmailAndPassword(auth,email,password)
         } catch (err){
             console.error(err);
         }
-        */
-       createUserWithEmailAndPassword(auth,email,password)
-       .catch(err => {console.error(err)})
     };
 
+    const logIn =() => {
+        console.log("Button Pressed");
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            console.log(user.email);
+            console.log("Successful Login");
+            //navigate("/dashboard");
+            // ...
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+        });
+        navigate("/dashboard");
+    };
+    
+/*
     const logIn = async () => {
         console.log("Button Pressed");
-        if(!isSigningIn){
-            setIsSingningIn(true)
-            await signInWithEmailAndPassword(email,password)
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            // Signed in 
+            const user = userCredential.user;
+            setCurrentUser(user.email);
+            setUserLoggedIn(true);
+            console.log(user.email);
+            //navigate("/dashboard");
+        } catch (error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.error("Error logging in:", errorCode, errorMessage);
         }
-        /*
-        try{
-        await signInWithEmailAndPassword(auth,email,password)
-        }
-         catch (err){
-            console.error(err);
-        }
-        */
-       /*
-       signInWithEmailAndPassword(auth,email,password)
-       .then(()=>{
-        console.log('User Signed in!')
-        navigate("/dashboard")
-        return
-        })
-       .catch(error => {
-        if (error.code === 'auth/user-not-found') {
-          console.log('There no user exist with that email');
-        }
-    
-        if (error.code === 'auth/invalid-email') {
-          console.log('That email address is invalid!');
-        }
-        console.error(error);
-      });
-      */
+        navigate("/dashboard");
     };
+    */
   
     return (
         <div className="bg-indigo-200 dark:bg-gray-800 h-screen overflow-hidden flex items-center justify-center">
-        {userLoggedIn && navigate("/dashboard")}
         <div className="bg-white lg:w-6/12 md:7/12 w-8/12 shadow-3xl rounded-xl">
             <div className="bg-gray-800 shadow shadow-gray-200 absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full p-4 md:p-8">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="#FFF">
@@ -117,12 +111,8 @@ const Login = (props) => {
                     placeholder="Password" 
                 />
             </div>
-            {/* Login Button */}
-            <button onClick={() => onButtonClick()} className="bg-gradient-to-b from-gray-700 to-gray-900 font-medium p-2 md:p-4 text-white uppercase w-full rounded">
-                Log in
-            </button>
             {/* Login with firebase Button */}
-            <button onClick={() => logIn()} className="bg-gradient-to-b from-gray-700 to-gray-900 font-medium p-2 md:p-4 text-white uppercase w-full rounded">
+            <button onClick={logIn} className="bg-gradient-to-b from-gray-700 to-gray-900 font-medium p-2 md:p-4 text-white uppercase w-full rounded">
                 Log in with Firebase
             </button>
             {/* Signup Button */}

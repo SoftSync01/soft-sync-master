@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 
 import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
@@ -20,14 +20,23 @@ import DashboardCard11 from '../partials/dashboard/DashboardCard11';
 import DashboardCard12 from '../partials/dashboard/DashboardCard12';
 import DashboardCard13 from '../partials/dashboard/DashboardCard13';
 import Banner from '../partials/Banner';
+import { auth } from "../firebase/firebase-config";
+import { useNavigate } from 'react-router-dom';
+
 
 function Dashboard() {
-
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  useEffect(() => {
+    if (!(auth?.currentUser?.email)) {
+        navigate('/');
+        console.log("invalid login");
+    }
+}, [auth?.currentUser?.email]);
+
 
   return (
     <div className="flex h-screen overflow-hidden">
-
       {/* Sidebar */}
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
