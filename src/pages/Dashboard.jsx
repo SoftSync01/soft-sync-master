@@ -27,13 +27,6 @@ import { useNavigate } from 'react-router-dom';
 function Dashboard() {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  useEffect(() => {
-    if (!(auth?.currentUser?.email)) {
-        navigate('/');
-        console.log("invalid login");
-    }
-}, [auth?.currentUser?.email]);
-
 
   return (
     <div className="flex h-screen overflow-hidden">

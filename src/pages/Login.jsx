@@ -9,16 +9,8 @@ const Login = (props) => {
     const [password, setPassword] = useState('')
     const [userLoggedIn, setUserloggedIn] = useState(false);
     const [currentUser, setCurrentUser] = useState(undefined);
-    console.log(auth?.currentUser?.email);
 
     const navigate = useNavigate();
-
-    useEffect(() => {
-        if (auth?.currentUser?.email) {
-            navigate('/dashboard');
-            console.log("Current User:", auth?.currentUser?.email);
-        }
-    }, [auth?.currentUser?.email]);
 
     const logout = async () => {
         try {
@@ -36,7 +28,8 @@ const Login = (props) => {
         }
     };
 
-    const logIn =() => {
+    const logIn = (e) => {
+        e.preventDefault();
         console.log("Button Pressed");
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -44,36 +37,15 @@ const Login = (props) => {
             const user = userCredential.user;
             console.log(user.email);
             console.log("Successful Login");
-            //navigate("/dashboard");
+            navigate("/dashboard");
             // ...
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
         });
-        navigate("/dashboard");
+
     };
-    
-/*
-    const logIn = async () => {
-        console.log("Button Pressed");
-        try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            // Signed in 
-            const user = userCredential.user;
-            setCurrentUser(user.email);
-            setUserLoggedIn(true);
-            console.log(user.email);
-            //navigate("/dashboard");
-        } catch (error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.error("Error logging in:", errorCode, errorMessage);
-        }
-        navigate("/dashboard");
-    };
-    */
-  
     return (
         <div className="bg-indigo-200 dark:bg-gray-800 h-screen overflow-hidden flex items-center justify-center">
         <div className="bg-white lg:w-6/12 md:7/12 w-8/12 shadow-3xl rounded-xl">
@@ -116,11 +88,11 @@ const Login = (props) => {
                 Log in with Firebase
             </button>
             {/* Signup Button */}
-            <button onClick={() => signUp()} className="bg-gradient-to-b from-gray-700 to-gray-900 font-medium p-2 md:p-4 text-white uppercase w-full rounded">
+            <button onClick={signUp} className="bg-gradient-to-b from-gray-700 to-gray-900 font-medium p-2 md:p-4 text-white uppercase w-full rounded">
                 Sign Up
             </button>
             {/* Signup Button */}
-            <button onClick={() => logout()} className="bg-gradient-to-b from-gray-700 to-gray-900 font-medium p-2 md:p-4 text-white uppercase w-full rounded">
+            <button onClick={logout} className="bg-gradient-to-b from-gray-700 to-gray-900 font-medium p-2 md:p-4 text-white uppercase w-full rounded">
                 Log Out
             </button>
             </form>
