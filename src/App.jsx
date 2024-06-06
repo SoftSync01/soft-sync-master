@@ -10,6 +10,9 @@ import './css/style.css';
 
 import './charts/ChartjsConfig';
 
+// Import Firebase items
+
+
 // Import pages
 import Dashboard from './pages/Dashboard';
 import Analytics from './pages/Analytics';
