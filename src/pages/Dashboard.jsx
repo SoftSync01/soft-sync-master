@@ -22,11 +22,63 @@ import DashboardCard13 from '../partials/dashboard/DashboardCard13';
 import Banner from '../partials/Banner';
 import { auth } from "../firebase/firebase-config";
 import { useNavigate } from 'react-router-dom';
-
+import { db } from "../firebase/firebase-config";
+import { getDatabase, ref,child,get,set,update,remove,push } from "firebase/database";
 
 function Dashboard() {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [currentuid, setCurrentUser] = useState("");
+
+  // Save states to remember customisability
+  const [dashboardstate, setDashboardState] = useState({
+    card01: true,
+    card02: true,
+    card03: false,
+    card04: true,
+    card05: true,
+    card06: true,
+    card07: true,
+    card08: true,
+    card09: true,
+    card10: true,
+    card11: true,
+    card12: true,
+    card13: true,
+  });
+
+  useEffect(()=> {
+    getLoggedInfo();
+  },[]);
+
+  const getLoggedInfo = async(e)=>{
+    const currentuid = auth.currentUser.uid;
+    setCurrentUser(currentuid);
+    console.log(currentuid);
+    const dbRef = ref(db,"user/"+ currentuid);
+    const snapshot = await get(dbRef);
+    if(snapshot.exists){
+      const userData = snapshot.val();
+      setDashboardState({
+        card01: userData.card01,
+        card02: userData.card02,
+        card03: userData.card03,
+        card04: userData.card04,
+        card05: userData.card05,
+        card06: userData.card06,
+        card07: userData.card07,
+        card08: userData.card08,
+        card09: userData.card09,
+        card10: userData.card10,
+        card11: userData.card11,
+        card12: userData.card12,
+        card13: userData.card13,
+      });
+    }else{
+        alert("no data found");
+    }
+    console.log("setup Complete");
+  }
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -72,31 +124,31 @@ function Dashboard() {
             <div className="grid grid-cols-12 gap-6">
 
               {/* Line chart (Soft Plus) */}
-              <DashboardCard01 />
+              {dashboardstate.card01 && <DashboardCard01 />}
               {/* Line chart (Soft Advanced) */}
-              <DashboardCard02 />
+              {dashboardstate.card02 && <DashboardCard02 />}
               {/* Line chart (Soft Professional) */}
-              <DashboardCard03 />
+              {dashboardstate.card03 && <DashboardCard03 />}
               {/* Bar chart (Direct vs Indirect) */}
-              <DashboardCard04 />
+              {dashboardstate.card04 && <DashboardCard04/>}
               {/* Line chart (Real Time Value) */}
-              <DashboardCard05 />
+              {dashboardstate.card05 && <DashboardCard05 />}
               {/* Doughnut chart (Top Countries) */}
-              <DashboardCard06 />
+              {dashboardstate.card06 && <DashboardCard06 />}
               {/* Table (Top Channels) */}
-              <DashboardCard07 />
+              {dashboardstate.card07 && <DashboardCard07 />}
               {/* Line chart (Sales Over Time) */}
-              <DashboardCard08 />
+              {dashboardstate.card08 && <DashboardCard08 />}
               {/* Stacked bar chart (Sales VS Refunds) */}
-              <DashboardCard09 />
+              {dashboardstate.card09 && <DashboardCard09 />}
               {/* Card (Customers) */}
-              <DashboardCard10 />
+              {dashboardstate.card10 && <DashboardCard10 />}
               {/* Card (Reasons for Refunds) */}
-              <DashboardCard11 />
+              {dashboardstate.card11 && <DashboardCard11 />}
               {/* Card (Recent Activity) */}
-              <DashboardCard12 />
+              {dashboardstate.card12 && <DashboardCard12 />}
               {/* Card (Income/Expenses) */}
-              <DashboardCard13 />
+              {dashboardstate.card13 && <DashboardCard13 />}
               
             </div>
 

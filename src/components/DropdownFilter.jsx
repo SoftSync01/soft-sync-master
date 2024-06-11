@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Transition from '../utils/Transition';
+import { auth } from "../firebase/firebase-config";
+import { db } from "../firebase/firebase-config";
+import { ref,update } from "firebase/database";
 
 function DropdownFilter({
   align
@@ -30,6 +33,70 @@ function DropdownFilter({
     document.addEventListener('keydown', keyHandler);
     return () => document.removeEventListener('keydown', keyHandler);
   });
+
+
+  const filterDashboard = async(e)=>{
+    const currentuid = auth.currentUser.uid;
+    console.log(currentuid);
+    const dbRef = ref(db,"user/"+ currentuid);
+    var Direct = document.getElementById("Direct");
+    var RTV = document.getElementById("RTV");
+    var Top = document.getElementById("Top");
+    var Sales = document.getElementById("Sales");
+    var Last = document.getElementById("Last");
+    var TotalSpent = document.getElementById("TotalSpent");
+    var updates = {
+      "card01": true,
+      "card02": true,
+      "card03": true,
+    };
+    if(Direct.checked){
+      updates["card04"] = true;
+    }
+    else{
+      updates["card04"] = false;
+    }
+    if(RTV.checked){
+      updates["card05"] = true;
+    }
+    else{
+      updates["card05"] = false;
+    }
+    if(Top.checked){
+      updates["card06"] = true;
+      updates["card07"] = true;
+    }
+    else{
+      updates["card06"] = false;
+      updates["card07"] = false;
+    }
+    if(Sales.checked){
+      updates["card08"] = true;
+      updates["card09"] = true;
+    }
+    else{
+      updates["card08"] = false;
+      updates["card09"] = false;
+    }
+    if(Last.checked){
+      updates["card10"] = true;
+      updates["card11"] = true;
+    }
+    else{
+      updates["card10"] = false;
+      updates["card11"] = false;
+    }
+    if(TotalSpent.checked){
+      updates["card12"] = true;
+      updates["card13"] = true;
+    }
+    else{
+      updates["card12"] = false;
+      updates["card13"] = false;
+    }
+    update(dbRef,updates)
+    setDropdownOpen(false);
+  }
 
   return (
     <div className="relative inline-flex">
@@ -64,37 +131,37 @@ function DropdownFilter({
           <ul className="mb-4">
             <li className="py-1 px-3">
               <label className="flex items-center">
-                <input type="checkbox" className="form-checkbox" />
+                <input type="checkbox" className="form-checkbox" id = "Direct"/>
                 <span className="text-sm font-medium ml-2">Direct VS Indirect</span>
               </label>
             </li>
             <li className="py-1 px-3">
               <label className="flex items-center">
-                <input type="checkbox" className="form-checkbox" />
+                <input type="checkbox" className="form-checkbox" id = "RTV" />
                 <span className="text-sm font-medium ml-2">Real Time Value</span>
               </label>
             </li>
             <li className="py-1 px-3">
               <label className="flex items-center">
-                <input type="checkbox" className="form-checkbox" />
+                <input type="checkbox" className="form-checkbox" id = "Top"/>
                 <span className="text-sm font-medium ml-2">Top Channels</span>
               </label>
             </li>
             <li className="py-1 px-3">
               <label className="flex items-center">
-                <input type="checkbox" className="form-checkbox" />
+                <input type="checkbox" className="form-checkbox" id = "Sales" />
                 <span className="text-sm font-medium ml-2">Sales VS Refunds</span>
               </label>
             </li>
             <li className="py-1 px-3">
               <label className="flex items-center">
-                <input type="checkbox" className="form-checkbox" />
+                <input type="checkbox" className="form-checkbox" id = "Last" />
                 <span className="text-sm font-medium ml-2">Last Order</span>
               </label>
             </li>
             <li className="py-1 px-3">
               <label className="flex items-center">
-                <input type="checkbox" className="form-checkbox" />
+                <input type="checkbox" className="form-checkbox" id = "TotalSpent" />
                 <span className="text-sm font-medium ml-2">Total Spent</span>
               </label>
             </li>
@@ -109,7 +176,8 @@ function DropdownFilter({
               <li>
                 <button
                   className="btn-xs bg-indigo-500 hover:bg-indigo-600 text-white"
-                  onClick={() => setDropdownOpen(false)}
+                  //onClick={() => setDropdownOpen(false)}
+                  onClick={() => filterDashboard()}
                   onBlur={() => setDropdownOpen(false)}
                 >
                   Apply

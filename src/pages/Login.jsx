@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { NavLink, useLocation } from 'react-router-dom';
 import { auth } from "../firebase/firebase-config";
 import { signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { db } from "../firebase/firebase-config";
+import { getDatabase, ref,child,get,set,update,remove,push } from "firebase/database";
 
 const Login = (props) => {
     const [email, setEmail] = useState('')
@@ -12,6 +14,27 @@ const Login = (props) => {
 
     const navigate = useNavigate();
 
+    function createdata(userid,email){
+        const dbRef = ref(db,"user/" + userid);
+        set(dbRef,{
+            email: email,
+            card01: true,
+            card02: true,
+            card03: true,
+            card04: true,
+            card05: true,
+            card06: true,
+            card07: true,
+            card08: true,
+            card09: true,
+            card10: true,
+            card11: true,
+            card12: true,
+            card13: true
+        })
+        alert("User Creation Successful");
+    }
+
     const logout = async () => {
         try {
           await signOut(auth);
@@ -20,9 +43,15 @@ const Login = (props) => {
         }
       };
 
-    const signUp = async() => {
+    const signUp = async(e) => {
+        e.preventDefault();
+        console.log("Sign Up Button Pressed");
         try{
         await createUserWithEmailAndPassword(auth,email,password)
+        .then((userCredential)=>{
+            const user = userCredential.user;
+            createdata(user.uid,email)
+        })
         } catch (err){
             console.error(err);
         }

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { NavLink, useLocation } from 'react-router-dom';
 import { db } from "../firebase/firebase-config";
 import { getDatabase, ref,child,get,set,update,remove,push } from "firebase/database";
+import { auth } from "../firebase/firebase-config";
 
 const Login = (props) => {
     const [data1, setdata1] = useState('');
@@ -11,6 +12,7 @@ const Login = (props) => {
     //console.log(displaydata);
     //console.log(displaydata[0].Data1);
     // console.log(displaydata[0].Data2);
+
 
     const deleteData =(e) => {
         e.preventDefault();
@@ -25,7 +27,9 @@ const Login = (props) => {
     const readData = async(e) => {
         e.preventDefault();
         console.log("Read Button Pressed");
-        const dbRef = ref(db,"user/"+ "11062024");
+        const currentuid = auth.currentUser.uid;
+        console.log(currentuid);
+        const dbRef = ref(db,"user/"+ currentuid);
         const snapshot = await get(dbRef);
         if(snapshot.exists){
             /* To Store & Save Data Entry ID for future update*/
