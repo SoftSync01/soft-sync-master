@@ -2,6 +2,8 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
+import { getDatabase, ref,child,get,set,update,remove } from "firebase/database";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -10,6 +12,7 @@ import { getAuth } from "firebase/auth";
 const firebaseConfig = {
     apiKey: "AIzaSyDeMU32FZIjFlodKGUmqJE57ufw6nHCXAE",
     authDomain: "softsync-e6b2d.firebaseapp.com",
+    databaseURL: "https://softsync-e6b2d-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "softsync-e6b2d",
     storageBucket: "softsync-e6b2d.appspot.com",
     messagingSenderId: "1086815429459",
@@ -21,5 +24,6 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 export const auth = getAuth(app);
+export const db = getDatabase(app);
 
 //export {app,auth};

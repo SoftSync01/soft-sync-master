@@ -36,6 +36,7 @@ const Login = (props) => {
             // Signed in 
             const user = userCredential.user;
             console.log(user.email);
+            console.log(user.uid);
             console.log("Successful Login");
             navigate("/dashboard");
             // ...
