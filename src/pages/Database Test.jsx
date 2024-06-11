@@ -62,22 +62,6 @@ const Login = (props) => {
         })
     }
 
-
-    // const storeData = (e) => {
-    //     e.preventDefault();
-    //     console.log("Store Button Pressed");
-    //     //const newDocRef = push(ref(db,"nature"));
-    //     const newDocRef = push(ref(db,"nature"));
-    //     set(newDocRef,{
-    //         Data1: data1,
-    //         Data2: data2 
-    //     }).then(()=>{
-    //         alert("data saved successfully");
-    //     }).catch((err)=>{
-    //         alert("error: ", err.message)
-    //     })
-    // };
-
     return (
         <div className="bg-indigo-200 dark:bg-gray-800 h-screen overflow-hidden flex items-center justify-center">
         <div className="bg-white lg:w-6/12 md:7/12 w-8/12 shadow-3xl rounded-xl">
