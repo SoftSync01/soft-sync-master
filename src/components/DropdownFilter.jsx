@@ -3,13 +3,11 @@ import Transition from '../utils/Transition';
 import { auth } from "../firebase/firebase-config";
 import { db } from "../firebase/firebase-config";
 import { ref,update } from "firebase/database";
+import Dashboard from '../pages/Dashboard';
 
-function DropdownFilter({
-  align
-}) {
+function DropdownFilter({ align, dashboardState, updateDashboardState}) {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
   const trigger = useRef(null);
   const dropdown = useRef(null);
 
@@ -34,67 +32,36 @@ function DropdownFilter({
     return () => document.removeEventListener('keydown', keyHandler);
   });
 
-
   const filterDashboard = async(e)=>{
     const currentuid = auth.currentUser.uid;
     console.log(currentuid);
     const dbRef = ref(db,"user/"+ currentuid);
+
     var Direct = document.getElementById("Direct");
     var RTV = document.getElementById("RTV");
     var Top = document.getElementById("Top");
     var Sales = document.getElementById("Sales");
     var Last = document.getElementById("Last");
     var TotalSpent = document.getElementById("TotalSpent");
-    var updates = {
-      "card01": true,
-      "card02": true,
-      "card03": true,
+
+    const updates = {
+      card01: true,
+      card02: true,
+      card03: true,
+      card04: Direct.checked,
+      card05: RTV.checked,
+      card06: Top.checked,
+      card07: Top.checked,
+      card08: Sales.checked,
+      card09: Sales.checked,
+      card10: Last.checked,
+      card11: Last.checked,
+      card12: TotalSpent.checked,
+      card13: TotalSpent.checked,
     };
-    if(Direct.checked){
-      updates["card04"] = true;
-    }
-    else{
-      updates["card04"] = false;
-    }
-    if(RTV.checked){
-      updates["card05"] = true;
-    }
-    else{
-      updates["card05"] = false;
-    }
-    if(Top.checked){
-      updates["card06"] = true;
-      updates["card07"] = true;
-    }
-    else{
-      updates["card06"] = false;
-      updates["card07"] = false;
-    }
-    if(Sales.checked){
-      updates["card08"] = true;
-      updates["card09"] = true;
-    }
-    else{
-      updates["card08"] = false;
-      updates["card09"] = false;
-    }
-    if(Last.checked){
-      updates["card10"] = true;
-      updates["card11"] = true;
-    }
-    else{
-      updates["card10"] = false;
-      updates["card11"] = false;
-    }
-    if(TotalSpent.checked){
-      updates["card12"] = true;
-      updates["card13"] = true;
-    }
-    else{
-      updates["card12"] = false;
-      updates["card13"] = false;
-    }
-    update(dbRef,updates)
+    
+    await update(dbRef,updates)
+    updateDashboardState(updates);
     setDropdownOpen(false);
   }
 
@@ -177,7 +144,8 @@ function DropdownFilter({
                 <button
                   className="btn-xs bg-indigo-500 hover:bg-indigo-600 text-white"
                   //onClick={() => setDropdownOpen(false)}
-                  onClick={() => filterDashboard()}
+                  //onClick={() => filterDashboard()}
+                  onClick={filterDashboard}
                   onBlur={() => setDropdownOpen(false)}
                 >
                   Apply
@@ -191,4 +159,6 @@ function DropdownFilter({
   );
 }
 
+
 export default DropdownFilter;
+

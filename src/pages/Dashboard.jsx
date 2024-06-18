@@ -4,7 +4,7 @@ import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
 import WelcomeBanner from '../partials/dashboard/WelcomeBanner';
 import DashboardAvatars from '../partials/dashboard/DashboardAvatars';
-import FilterButton from '../components/DropdownFilter';
+//import FilterButton from '../components/DropdownFilter';
 import Datepicker from '../components/Datepicker';
 import DashboardCard01 from '../partials/dashboard/DashboardCard01';
 import DashboardCard02 from '../partials/dashboard/DashboardCard02';
@@ -24,14 +24,14 @@ import { auth } from "../firebase/firebase-config";
 import { useNavigate } from 'react-router-dom';
 import { db } from "../firebase/firebase-config";
 import { getDatabase, ref,child,get,set,update,remove,push } from "firebase/database";
+import DropdownFilter from '../components/DropdownFilter';
 
 function Dashboard() {
-  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentuid, setCurrentUser] = useState("");
 
   // Save states to remember customisability
-  const [dashboardstate, setDashboardState] = useState({
+  const [dashboardState, setDashboardState] = useState({
     card01: true,
     card02: true,
     card03: false,
@@ -50,6 +50,14 @@ function Dashboard() {
   useEffect(()=> {
     getLoggedInfo();
   },[]);
+
+  const updateDashboardState = (updates) => {
+    setDashboardState((prevState) => ({
+      ...prevState,
+      ...updates,
+    }));
+    console.log("update Complete");
+  };
 
   const getLoggedInfo = async(e)=>{
     const currentuid = auth.currentUser.uid;
@@ -82,6 +90,7 @@ function Dashboard() {
 
   return (
     <div className="flex h-screen overflow-hidden">
+
       {/* Sidebar */}
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
@@ -106,7 +115,7 @@ function Dashboard() {
               {/* Right: Actions */}
               <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
                 {/* Filter button */}
-                <FilterButton />
+                <DropdownFilter dashboardState={dashboardState} updateDashboardState={updateDashboardState}/>
                 {/* Datepicker built with flatpickr */}
                 <Datepicker />
                 {/* Add view button */}
@@ -124,31 +133,31 @@ function Dashboard() {
             <div className="grid grid-cols-12 gap-6">
 
               {/* Line chart (Soft Plus) */}
-              {dashboardstate.card01 && <DashboardCard01 />}
+              {dashboardState.card01 && <DashboardCard01 />}
               {/* Line chart (Soft Advanced) */}
-              {dashboardstate.card02 && <DashboardCard02 />}
+              {dashboardState.card02 && <DashboardCard02 />}
               {/* Line chart (Soft Professional) */}
-              {dashboardstate.card03 && <DashboardCard03 />}
+              {dashboardState.card03 && <DashboardCard03 />}
               {/* Bar chart (Direct vs Indirect) */}
-              {dashboardstate.card04 && <DashboardCard04/>}
+              {dashboardState.card04 && <DashboardCard04/>}
               {/* Line chart (Real Time Value) */}
-              {dashboardstate.card05 && <DashboardCard05 />}
+              {dashboardState.card05 && <DashboardCard05 />}
               {/* Doughnut chart (Top Countries) */}
-              {dashboardstate.card06 && <DashboardCard06 />}
+              {dashboardState.card06 && <DashboardCard06 />}
               {/* Table (Top Channels) */}
-              {dashboardstate.card07 && <DashboardCard07 />}
+              {dashboardState.card07 && <DashboardCard07 />}
               {/* Line chart (Sales Over Time) */}
-              {dashboardstate.card08 && <DashboardCard08 />}
+              {dashboardState.card08 && <DashboardCard08 />}
               {/* Stacked bar chart (Sales VS Refunds) */}
-              {dashboardstate.card09 && <DashboardCard09 />}
+              {dashboardState.card09 && <DashboardCard09 />}
               {/* Card (Customers) */}
-              {dashboardstate.card10 && <DashboardCard10 />}
+              {dashboardState.card10 && <DashboardCard10 />}
               {/* Card (Reasons for Refunds) */}
-              {dashboardstate.card11 && <DashboardCard11 />}
+              {dashboardState.card11 && <DashboardCard11 />}
               {/* Card (Recent Activity) */}
-              {dashboardstate.card12 && <DashboardCard12 />}
+              {dashboardState.card12 && <DashboardCard12 />}
               {/* Card (Income/Expenses) */}
-              {dashboardstate.card13 && <DashboardCard13 />}
+              {dashboardState.card13 && <DashboardCard13 />}
               
             </div>
 
