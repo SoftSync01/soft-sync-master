@@ -5,7 +5,7 @@ import { db } from "../firebase/firebase-config";
 import { ref,update,set,get} from "firebase/database";
 
 function AddView({
-  align, currentUid
+  align, currentUid, updateDashboardState
 }) {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -39,8 +39,6 @@ function AddView({
 
   const renderAddButton = async (e) => {
     setDropdownOpen(!dropdownOpen);
-    console.log("Addview Button Pressed");
-    console.log(currentUid);
     const dbRef = ref(db, "user/" + currentUid);
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
@@ -70,6 +68,7 @@ function AddView({
     console.log('Selected cards:', selected);
     const dbRef = ref(db,"user/" + currentUid);
     update(dbRef,selected);
+    updateDashboardState(selected);
   }
 
   const handleCheckboxChange = (id) => {

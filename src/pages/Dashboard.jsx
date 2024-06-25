@@ -125,7 +125,7 @@ function Dashboard() {
                 {/* Datepicker built with flatpickr */}
                 <Datepicker />
                 {/* Add view button */}
-                <AddView currentUid={currentuid}/>               
+                <AddView currentUid={currentuid} updateDashboardState={updateDashboardState} />               
               </div>
 
             </div>
@@ -134,15 +134,15 @@ function Dashboard() {
             <div className="grid grid-cols-12 gap-6">
 
               {/* Line chart (Soft Plus) */}
-              {dashboardState.card01 && <DashboardCard01 />}
+              {dashboardState.card01 && <DashboardCard01 currentUid={currentuid} updateDashboardState={updateDashboardState} />}
               {/* Line chart (Soft Advanced) */}
-              {dashboardState.card02 && <DashboardCard02 />}
+              {dashboardState.card02 && <DashboardCard02 currentUid={currentuid} updateDashboardState={updateDashboardState} />}
               {/* Line chart (Soft Professional) */}
-              {dashboardState.card03 && <DashboardCard03 />}
+              {dashboardState.card03 && <DashboardCard03 currentUid={currentuid} updateDashboardState={updateDashboardState} />}
               {/* Bar chart (Direct vs Indirect) */}
-              {dashboardState.card04 && <DashboardCard04/>}
+              {dashboardState.card04 && <DashboardCard04 currentUid={currentuid} updateDashboardState={updateDashboardState} />}
               {/* Line chart (Real Time Value) */}
-              {dashboardState.card05 && <DashboardCard05 />}
+              {dashboardState.card05 && <DashboardCard05 currentUid={currentuid} updateDashboardState={updateDashboardState}/>}
               {/* Doughnut chart (Top Countries) */}
               {dashboardState.card06 && <DashboardCard06 />}
               {/* Table (Top Channels) */}

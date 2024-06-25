@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Transition from '../utils/Transition';
 import { auth } from "../firebase/firebase-config";
 import { db } from "../firebase/firebase-config";
-import { ref,update } from "firebase/database";
+import { get, ref,update } from "firebase/database";
 import Dashboard from '../pages/Dashboard';
 
 function DropdownFilter({ align, dashboardState, updateDashboardState}) {
@@ -40,6 +40,8 @@ function DropdownFilter({ align, dashboardState, updateDashboardState}) {
     });
   }
 
+  const [items, setItems] = useState([]);
+
   const filterDashboard = async(e)=>{
     const currentuid = auth.currentUser.uid;
     console.log(currentuid);
@@ -67,9 +69,26 @@ function DropdownFilter({ align, dashboardState, updateDashboardState}) {
       card12: TotalSpent.checked,
       card13: TotalSpent.checked,
     };
-    
-    await update(dbRef,updates)
-    updateDashboardState(updates);
+
+    const snapshot = await get(dbRef);
+    if (snapshot.exists()) {
+      const userData = snapshot.val();
+      for (const key in updates) {
+        if (updates.hasOwnProperty(key)) {
+          // Check if key exists in userData before updating
+          if (userData.hasOwnProperty(key)) {
+            userData[key] = updates[key];
+          }
+        }
+      }
+      // Now userData contains updated values where keys exist in both objects
+      console.log(userData);
+      await update(dbRef,userData)
+      updateDashboardState(userData);
+    } else {
+      alert("No data found");
+      return;
+    }
     setDropdownOpen(false);
   }
 

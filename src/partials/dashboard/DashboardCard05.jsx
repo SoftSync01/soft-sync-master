@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Tooltip from '../../components/Tooltip';
 import RealtimeChart from '../../charts/RealtimeChart';
+import EditMenu from '../../components/DropdownEditMenu';
+import { ref, update} from "firebase/database";
+import { db } from '../../firebase/firebase-config';
 
 // Import utilities
 import { tailwindConfig, hexToRGB } from '../../utils/Utils';
 
-function DashboardCard05() {
+function DashboardCard05({currentUid, updateDashboardState}) {
 
   // IMPORTANT:
   // Code below is for demo purpose only, and it's not covered by support.
@@ -85,13 +88,31 @@ function DashboardCard05() {
     ],
   };
 
+  const removeCard = async (e) => {
+    console.log("Remove Button Pressed");
+    const dbRef = ref(db, "user/" + currentUid);
+    const card = {'card05' : null};
+    console.log(dbRef);
+    update(dbRef,card);
+    updateDashboardState(card);
+  }
+
   return (
     <div className="flex flex-col col-span-full sm:col-span-6 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
-      <header className="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex items-center">
+      <header className="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between">
         <h2 className="font-semibold text-slate-800 dark:text-slate-100">Real Time Value</h2>
         <Tooltip className="ml-2">
           <div className="text-xs text-center whitespace-nowrap">Built with <a className="underline" href="https://www.chartjs.org/" target="_blank" rel="noreferrer">Chart.js</a></div>
         </Tooltip>
+        <EditMenu align="right" className="relative inline-flex">
+            <li>
+              <button className="font-medium text-sm text-rose-500 hover:text-rose-600 flex py-1 px-3 bg-transparent border border-transparent hover:bg-rose-500 hover:text-white rounded-md transition duration-300"
+                onClick={removeCard}
+              >
+                Remove
+              </button>
+            </li>
+          </EditMenu>
       </header>
       {/* Chart built with Chart.js 3 */}
       {/* Change the height attribute to adjust the chart height */}
