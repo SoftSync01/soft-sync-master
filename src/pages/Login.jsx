@@ -9,8 +9,6 @@ import { getDatabase, ref,child,get,set,update,remove,push } from "firebase/data
 const Login = (props) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [userLoggedIn, setUserloggedIn] = useState(false);
-    const [currentUser, setCurrentUser] = useState(undefined);
 
     const navigate = useNavigate();
 
@@ -34,14 +32,6 @@ const Login = (props) => {
         })
         alert("User Creation Successful");
     }
-
-    const logout = async () => {
-        try {
-          await signOut(auth);
-        } catch (err) {
-          console.error(err);
-        }
-      };
 
     const signUp = async(e) => {
         e.preventDefault();
@@ -73,6 +63,7 @@ const Login = (props) => {
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
+            alert(error);
         });
 
     };
@@ -115,15 +106,11 @@ const Login = (props) => {
             </div>
             {/* Login with firebase Button */}
             <button onClick={logIn} className="bg-gradient-to-b from-gray-700 to-gray-900 font-medium p-2 md:p-4 text-white uppercase w-full rounded">
-                Log in with Firebase
+                Log in
             </button>
             {/* Signup Button */}
             <button onClick={signUp} className="bg-gradient-to-b from-gray-700 to-gray-900 font-medium p-2 md:p-4 text-white uppercase w-full rounded">
                 Sign Up
-            </button>
-            {/* Signup Button */}
-            <button onClick={logout} className="bg-gradient-to-b from-gray-700 to-gray-900 font-medium p-2 md:p-4 text-white uppercase w-full rounded">
-                Log Out
             </button>
             </form>
         </div>

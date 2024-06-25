@@ -30,6 +30,8 @@ function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentuid, setCurrentUser] = useState("");
 
+  const navigate = useNavigate();
+
   // Save states to remember customisability
   const [dashboardState, setDashboardState] = useState({
     card01: true,
@@ -60,6 +62,10 @@ function Dashboard() {
   };
 
   const getLoggedInfo = async(e)=>{
+    if(auth.currentUser == null){
+      navigate("/");
+      return;
+    }
     const currentuid = auth.currentUser.uid;
     setCurrentUser(currentuid);
     console.log(currentuid);

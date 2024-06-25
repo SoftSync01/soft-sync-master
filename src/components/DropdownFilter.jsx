@@ -32,6 +32,14 @@ function DropdownFilter({ align, dashboardState, updateDashboardState}) {
     return () => document.removeEventListener('keydown', keyHandler);
   });
 
+  const clearFilter = async(e)=>{
+    var filtercheckbox = document.querySelectorAll('input[type="checkbox"]');
+
+    filtercheckbox.forEach(filtercheckbox =>{
+      filtercheckbox.checked = false;
+    });
+  }
+
   const filterDashboard = async(e)=>{
     const currentuid = auth.currentUser.uid;
     console.log(currentuid);
@@ -136,7 +144,9 @@ function DropdownFilter({ align, dashboardState, updateDashboardState}) {
           <div className="py-2 px-3 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/20">
             <ul className="flex items-center justify-between">
               <li>
-                <button className="btn-xs bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-500 dark:text-slate-300 hover:text-slate-600 dark:hover:text-slate-200">
+                <button className="btn-xs bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-500 dark:text-slate-300 hover:text-slate-600 dark:hover:text-slate-200"
+                  onClick={clearFilter}
+                >
                   Clear
                 </button>
               </li>
