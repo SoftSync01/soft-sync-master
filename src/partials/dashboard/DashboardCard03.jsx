@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import LineChart from '../../charts/LineChart01';
 import Icon from '../../images/icon-03.svg';
 import EditMenu from '../../components/DropdownEditMenu';
+import { ref, update} from "firebase/database";
+import { db } from '../../firebase/firebase-config';
 
 // Import utilities
 import { tailwindConfig, hexToRGB } from '../../utils/Utils';
 
-function DashboardCard03() {
+function DashboardCard03({currentUid, updateDashboardState}) {
 
   const chartData = {
     labels: [
@@ -64,6 +66,14 @@ function DashboardCard03() {
       },
     ],
   };
+  const removeCard = async (e) => {
+    console.log("Remove Button Pressed");
+    const dbRef = ref(db, "user/" + currentUid);
+    const card = {'card03' : null};
+    console.log(dbRef);
+    update(dbRef,card);
+    updateDashboardState(card);
+  }
 
   return (
     <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
@@ -84,9 +94,11 @@ function DashboardCard03() {
               </Link>
             </li>
             <li>
-              <Link className="font-medium text-sm text-rose-500 hover:text-rose-600 flex py-1 px-3" to="#0">
+              <button className="font-medium text-sm text-rose-500 hover:text-rose-600 flex py-1 px-3 bg-transparent border border-transparent hover:bg-rose-500 hover:text-white rounded-md transition duration-300"
+                onClick={removeCard}
+              >
                 Remove
-              </Link>
+              </button>
             </li>
           </EditMenu>
         </header>

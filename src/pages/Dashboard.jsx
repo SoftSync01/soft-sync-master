@@ -4,8 +4,9 @@ import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
 import WelcomeBanner from '../partials/dashboard/WelcomeBanner';
 import DashboardAvatars from '../partials/dashboard/DashboardAvatars';
-import FilterButton from '../components/DropdownFilter';
+//import FilterButton from '../components/DropdownFilter';
 import Datepicker from '../components/Datepicker';
+import AddView from '../components/AddView';
 import DashboardCard01 from '../partials/dashboard/DashboardCard01';
 import DashboardCard02 from '../partials/dashboard/DashboardCard02';
 import DashboardCard03 from '../partials/dashboard/DashboardCard03';
@@ -22,14 +23,80 @@ import DashboardCard13 from '../partials/dashboard/DashboardCard13';
 import Banner from '../partials/Banner';
 import { auth } from "../firebase/firebase-config";
 import { useNavigate } from 'react-router-dom';
-
+import { db } from "../firebase/firebase-config";
+import { getDatabase, ref,child,get,set,update,remove,push } from "firebase/database";
+import DropdownFilter from '../components/DropdownFilter';
 
 function Dashboard() {
-  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [currentuid, setCurrentUser] = useState("");
+
+  const navigate = useNavigate();
+
+  // Save states to remember customisability
+  const [dashboardState, setDashboardState] = useState({
+    card01: true,
+    card02: true,
+    card03: false,
+    card04: false,
+    card05: false,
+    card06: false,
+    card07: false,
+    card08: false,
+    card09: false,
+    card10: false,
+    card11: false,
+    card12: false,
+    card13: false,
+  });
+
+  useEffect(()=> {
+    getLoggedInfo();
+  },[]);
+
+  const updateDashboardState = (updates) => {
+    setDashboardState((prevState) => ({
+      ...prevState,
+      ...updates,
+    }));
+    console.log("update Complete");
+  };
+
+  const getLoggedInfo = async(e)=>{
+    if(auth.currentUser == null){
+      navigate("/");
+      return;
+    }
+    const currentuid = auth.currentUser.uid;
+    setCurrentUser(currentuid);
+    const dbRef = ref(db,"user/"+ currentuid);
+    const snapshot = await get(dbRef);
+    if(snapshot.exists){
+      const userData = snapshot.val();
+      setDashboardState({
+        card01: userData.card01,
+        card02: userData.card02,
+        card03: userData.card03,
+        card04: userData.card04,
+        card05: userData.card05,
+        card06: userData.card06,
+        card07: userData.card07,
+        card08: userData.card08,
+        card09: userData.card09,
+        card10: userData.card10,
+        card11: userData.card11,
+        card12: userData.card12,
+        card13: userData.card13,
+      });
+    }else{
+        alert("no data found");
+    }
+    console.log("setup Complete");
+  }
 
   return (
     <div className="flex h-screen overflow-hidden">
+
       {/* Sidebar */}
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
@@ -54,16 +121,11 @@ function Dashboard() {
               {/* Right: Actions */}
               <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
                 {/* Filter button */}
-                <FilterButton />
+                <DropdownFilter dashboardState={dashboardState} updateDashboardState={updateDashboardState}/>
                 {/* Datepicker built with flatpickr */}
                 <Datepicker />
                 {/* Add view button */}
-                <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white">
-                    <svg className="w-4 h-4 fill-current opacity-50 shrink-0" viewBox="0 0 16 16">
-                        <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
-                    </svg>
-                    <span className="hidden xs:block ml-2">Add view</span>
-                </button>                
+                <AddView currentUid={currentuid} updateDashboardState={updateDashboardState} />               
               </div>
 
             </div>
@@ -72,31 +134,31 @@ function Dashboard() {
             <div className="grid grid-cols-12 gap-6">
 
               {/* Line chart (Soft Plus) */}
-              <DashboardCard01 />
+              {dashboardState.card01 && <DashboardCard01 currentUid={currentuid} updateDashboardState={updateDashboardState} />}
               {/* Line chart (Soft Advanced) */}
-              <DashboardCard02 />
+              {dashboardState.card02 && <DashboardCard02 currentUid={currentuid} updateDashboardState={updateDashboardState} />}
               {/* Line chart (Soft Professional) */}
-              <DashboardCard03 />
+              {dashboardState.card03 && <DashboardCard03 currentUid={currentuid} updateDashboardState={updateDashboardState} />}
               {/* Bar chart (Direct vs Indirect) */}
-              <DashboardCard04 />
+              {dashboardState.card04 && <DashboardCard04 currentUid={currentuid} updateDashboardState={updateDashboardState} />}
               {/* Line chart (Real Time Value) */}
-              <DashboardCard05 />
+              {dashboardState.card05 && <DashboardCard05 currentUid={currentuid} updateDashboardState={updateDashboardState}/>}
               {/* Doughnut chart (Top Countries) */}
-              <DashboardCard06 />
+              {dashboardState.card06 && <DashboardCard06 />}
               {/* Table (Top Channels) */}
-              <DashboardCard07 />
+              {dashboardState.card07 && <DashboardCard07 />}
               {/* Line chart (Sales Over Time) */}
-              <DashboardCard08 />
+              {dashboardState.card08 && <DashboardCard08 />}
               {/* Stacked bar chart (Sales VS Refunds) */}
-              <DashboardCard09 />
+              {dashboardState.card09 && <DashboardCard09 />}
               {/* Card (Customers) */}
-              <DashboardCard10 />
+              {dashboardState.card10 && <DashboardCard10 />}
               {/* Card (Reasons for Refunds) */}
-              <DashboardCard11 />
+              {dashboardState.card11 && <DashboardCard11 />}
               {/* Card (Recent Activity) */}
-              <DashboardCard12 />
+              {dashboardState.card12 && <DashboardCard12 />}
               {/* Card (Income/Expenses) */}
-              <DashboardCard13 />
+              {dashboardState.card13 && <DashboardCard13 />}
               
             </div>
 

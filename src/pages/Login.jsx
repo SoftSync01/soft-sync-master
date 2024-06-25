@@ -3,26 +3,45 @@ import { useNavigate } from 'react-router-dom';
 import { NavLink, useLocation } from 'react-router-dom';
 import { auth } from "../firebase/firebase-config";
 import { signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { db } from "../firebase/firebase-config";
+import { getDatabase, ref,child,get,set,update,remove,push } from "firebase/database";
 
 const Login = (props) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [userLoggedIn, setUserloggedIn] = useState(false);
-    const [currentUser, setCurrentUser] = useState(undefined);
 
     const navigate = useNavigate();
 
-    const logout = async () => {
-        try {
-          await signOut(auth);
-        } catch (err) {
-          console.error(err);
-        }
-      };
+    function createdata(userid,email){
+        const dbRef = ref(db,"user/" + userid);
+        set(dbRef,{
+            email: email,
+            card01: true,
+            card02: true,
+            card03: true,
+            card04: true,
+            card05: true,
+            card06: true,
+            card07: true,
+            card08: true,
+            card09: true,
+            card10: true,
+            card11: true,
+            card12: true,
+            card13: true
+        })
+        alert("User Creation Successful");
+    }
 
-    const signUp = async() => {
+    const signUp = async(e) => {
+        e.preventDefault();
+        console.log("Sign Up Button Pressed");
         try{
         await createUserWithEmailAndPassword(auth,email,password)
+        .then((userCredential)=>{
+            const user = userCredential.user;
+            createdata(user.uid,email)
+        })
         } catch (err){
             console.error(err);
         }
@@ -44,6 +63,7 @@ const Login = (props) => {
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
+            alert(error);
         });
 
     };
@@ -86,15 +106,11 @@ const Login = (props) => {
             </div>
             {/* Login with firebase Button */}
             <button onClick={logIn} className="bg-gradient-to-b from-gray-700 to-gray-900 font-medium p-2 md:p-4 text-white uppercase w-full rounded">
-                Log in with Firebase
+                Log in
             </button>
             {/* Signup Button */}
             <button onClick={signUp} className="bg-gradient-to-b from-gray-700 to-gray-900 font-medium p-2 md:p-4 text-white uppercase w-full rounded">
                 Sign Up
-            </button>
-            {/* Signup Button */}
-            <button onClick={logout} className="bg-gradient-to-b from-gray-700 to-gray-900 font-medium p-2 md:p-4 text-white uppercase w-full rounded">
-                Log Out
             </button>
             </form>
         </div>
