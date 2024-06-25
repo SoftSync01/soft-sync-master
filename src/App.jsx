@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import {
   Routes,
   Route,
-
+  Router,
   useLocation
 } from 'react-router-dom';
 
@@ -10,11 +10,17 @@ import './css/style.css';
 
 import './charts/ChartjsConfig';
 
+// Import Firebase items
+
+
 // Import pages
 import Dashboard from './pages/Dashboard';
 import Analytics from './pages/Analytics';
 import Login from './pages/Login';
 import Transactions from './pages/finance/Transactions';
+import DatabaseTest from './pages/Database Test';
+import { DndContext } from '@dnd-kit/core';
+import DnDTest from './pages/DnDTest';
 
 function App() {
 
@@ -33,6 +39,9 @@ function App() {
           <Route exact path="/dashboard" element={<Dashboard />} />
           <Route exact path="/dashboard/analytics" element={<Analytics />} />
           <Route exact path="/finance/transactions" element={<Transactions />} />
+          <Route exact path="/database" element={<DatabaseTest />} />
+          <Route exact path="/DnDTest" element={<DnDTest />} />
+
       </Routes>
     </>
   );

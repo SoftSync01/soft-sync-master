@@ -4,4 +4,6 @@ dist
 dist-ssr
 *.local
 .netlify/state.json
+# Local Netlify folder
+.netlify
 .netlify/state.json
