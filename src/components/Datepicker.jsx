@@ -1,9 +1,7 @@
 import React from 'react';
 import Flatpickr from 'react-flatpickr';
 
-function Datepicker({
-  align
-}) {
+function Datepicker({align}) {
 
   const options = {
     mode: 'range',
@@ -25,7 +23,10 @@ function Datepicker({
 
   return (
     <div className="relative">
-      <Flatpickr className="form-input pl-9 dark:bg-slate-800 text-slate-500 hover:text-slate-600 dark:text-slate-300 dark:hover:text-slate-200 font-medium w-[15.5rem]" options={options} />
+      <Flatpickr 
+        className="form-input pl-9 dark:bg-slate-800 text-slate-500 hover:text-slate-600 dark:text-slate-300 dark:hover:text-slate-200 font-medium w-[30rem] h-[2.80rem] bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100" 
+        options={options} 
+      />
       <div className="absolute inset-0 right-auto flex items-center pointer-events-none">
         <svg className="w-4 h-4 fill-current text-slate-500 dark:text-slate-400 ml-3" viewBox="0 0 16 16">
           <path d="M15 2h-2V0h-2v2H9V0H7v2H5V0H3v2H1a1 1 0 00-1 1v12a1 1 0 001 1h14a1 1 0 001-1V3a1 1 0 00-1-1zm-1 12H2V6h12v8z" />
