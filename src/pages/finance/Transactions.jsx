@@ -7,7 +7,7 @@ import DashboardAvatars from '../../partials/dashboard/DashboardAvatars';
 import FilterButton from '../../components/DropdownFilter';
 import Datepicker from '../../components/Datepicker';
 import Banner from '../../partials/Banner';
-import MonthlyExpenses from '../../partials/finance/MonthlyExpenses';
+import {MonthlySpendingCard, WeeklyRevenueCard, DailyTrafficCard} from '../../partials/finance/Cards';
 import Dropdown from '../../partials/finance/Dropdown';
 
 function Transactions() {
@@ -53,16 +53,15 @@ function Transactions() {
             </div>
 
             {/* Cards */}
-            <div className="grid grid-cols-12 gap-6">
-                {/* Dropdown Menu*/}
-                
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/*Expenses Graph*/}
-                
+                <MonthlySpendingCard />
                 {/*Calendar Graph*/}
                 
                 {/*Weekly Graph*/}
-
+                <WeeklyRevenueCard />
                 {/*Daily Traffic Graph*/}
+                <DailyTrafficCard />
     
             </div>
           </div>
