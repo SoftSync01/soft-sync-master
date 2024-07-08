@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-export default function Dropdown() {
+export default function Dropdown({selectedOption,setSelectedOption}) {
     const options = ["Soft Plus", "Soft Advanced", "Soft Professional"];
 
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState(null);
+    //const [selectedOption, setSelectedOption] = useState(null);
     const refDropdown = useRef(null);
+
+    //console.log(selectedOption);
 
     useEffect(() => {
         const handleClickOutside = (event) => {

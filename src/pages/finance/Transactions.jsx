@@ -13,6 +13,8 @@ import Dropdown from '../../partials/finance/Dropdown';
 function Transactions() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
+
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -31,34 +33,28 @@ function Transactions() {
 
               {/* Left: Avatars */}
               <div>
-                <Dropdown />
+                <Dropdown selectedOption={selectedOption} setSelectedOption={setSelectedOption}/>
               </div>
               
 
               {/* Right: Actions */}
               <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
                 {/* Datepicker built with flatpickr */}
-                <Datepicker align='left'/>
-                {/* Add view button */}
-                <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white flex items-center h-[2.7rem] border-gray-300 rounded-md shadow-sm">
-                    <svg className="w-4 h-4 fill-current opacity-50 shrink-0" viewBox="0 0 16 16">
-                        <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
-                    </svg>
-                    <span className="hidden xs:block ml-2">Add view</span>
-                </button>                
+                <Datepicker align='left'/>               
               </div>
             </div>
 
             {/* Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/*Expenses Graph*/}
-                <MonthlySpendingCard />
+                {(selectedOption != null) && <MonthlySpendingCard /> }
                 {/*Calendar Graph*/}
                 
                 {/*Weekly Graph*/}
-                <WeeklyRevenueCard />
+                {(selectedOption != null) && <WeeklyRevenueCard />}
+
                 {/*Daily Traffic Graph*/}
-                <DailyTrafficCard />
+                {(selectedOption != null) && <DailyTrafficCard />}
     
             </div>
           </div>

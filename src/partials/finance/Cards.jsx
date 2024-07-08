@@ -2,6 +2,46 @@ import React from 'react';
 import { Line, Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
 
+
+//Revenue [To do Week/Month/Year Filtering]
+export function WeeklyRevenueCard() {
+    const data = {
+        labels: ['17', '18', '19', '20', '21', '22', '23'],
+        datasets: [
+            {
+                label: 'Revenue',
+                data: [5000, 10000, 7500, 12500, 10000, 15000, 17500],
+                backgroundColor: '#9f7aea',
+                borderColor: '#9f7aea',
+                borderWidth: 1,
+            },
+        ],
+    };
+
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false,
+            },
+        },
+    };
+
+    return (
+        <div className="bg-white p-6 rounded-xl shadow-md col-span-12 sm:col-span-6 lg:col-span-4">
+            <div className="flex justify-between items-center">
+                <span className="text-gray-500">Weekly Revenue</span>
+                <span className="text-gray-400">...</span>
+            </div>
+            <div className="mt-4 h-36">
+                <Bar data={data} options={options} />
+            </div>
+        </div>
+    );
+}
+
+//Spendings Card [To do Week/Month/Year Filtering]
 export function MonthlySpendingCard() {
     const data = {
         labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'],
@@ -44,43 +84,13 @@ export function MonthlySpendingCard() {
     );
 }
 
-export function WeeklyRevenueCard() {
-    const data = {
-        labels: ['17', '18', '19', '20', '21', '22', '23'],
-        datasets: [
-            {
-                label: 'Revenue',
-                data: [5000, 10000, 7500, 12500, 10000, 15000, 17500],
-                backgroundColor: '#9f7aea',
-                borderColor: '#9f7aea',
-                borderWidth: 1,
-            },
-        ],
-    };
+//Profit Margin [To do Week/Month/Year Filtering]
 
-    const options = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false,
-            },
-        },
-    };
+//Growth Rate [To do Week/Month/Year Filtering]
 
-    return (
-        <div className="bg-white p-6 rounded-xl shadow-md col-span-12 sm:col-span-6 lg:col-span-4">
-            <div className="flex justify-between items-center">
-                <span className="text-gray-500">Weekly Revenue</span>
-                <span className="text-gray-400">...</span>
-            </div>
-            <div className="mt-4 h-36">
-                <Bar data={data} options={options} />
-            </div>
-        </div>
-    );
-}
+//Top Spending [To do Week/Month/Year Filtering]
 
+// Daily Trafic [Sort by Week/Month/Year]
 export function DailyTrafficCard() {
     const data = {
         labels: ['0', '4', '8', '12', '16'],

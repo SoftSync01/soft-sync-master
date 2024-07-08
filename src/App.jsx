@@ -38,7 +38,7 @@ function App() {
           <Route exact path="/" element={<Login />} />
           <Route exact path="/dashboard" element={<Dashboard />} />
           <Route exact path="/dashboard/analytics" element={<Analytics />} />
-          <Route exact path="/finance/transactions" element={<Transactions />} />
+          <Route exact path="/finance" element={<Transactions />} />
           <Route exact path="/database" element={<DatabaseTest />} />
           <Route exact path="/DnDTest" element={<DnDTest />} />
 
