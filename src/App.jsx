@@ -20,7 +20,7 @@ import Login from './pages/Login';
 import Transactions from './pages/finance/Transactions';
 import DatabaseTest from './pages/Database Test';
 import { DndContext } from '@dnd-kit/core';
-import DnDTest from './pages/DnDTest';
+import DnDTest from './pages/DnD/DnDTest';
 
 function App() {
 
