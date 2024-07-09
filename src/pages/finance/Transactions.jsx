@@ -5,15 +5,17 @@ import Header from '../../partials/Header';
 import WelcomeBanner from '../../partials/dashboard/WelcomeBanner';
 import DashboardAvatars from '../../partials/dashboard/DashboardAvatars';
 import FilterButton from '../../components/DropdownFilter';
+import DateSelect from '../../components/DateSelect';
 import Datepicker from '../../components/Datepicker';
 import Banner from '../../partials/Banner';
-import {MonthlySpendingCard, WeeklyRevenueCard, DailyTrafficCard} from '../../partials/finance/Cards';
-import Dropdown from '../../partials/finance/Dropdown';
+import {MonthlySpendingCard, WeeklyRevenueCard, DailyTrafficCard, ProfitMargin, GrowthRate,TopSpending} from '../../partials/finance/Cards';
+import {Dropdown, DropdownDateTypeSelect} from '../../partials/finance/Dropdown';
 
 function Transactions() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedType, setSelectedType] = useState("Month");
 
 
   return (
@@ -31,14 +33,18 @@ function Transactions() {
             {/* Dashboard actions */}
             <div className="sm:flex sm:justify-between sm:items-center mb-8">
 
-              {/* Left: Avatars */}
+              {/* Project Selector */}
               <div>
                 <Dropdown selectedOption={selectedOption} setSelectedOption={setSelectedOption}/>
+                
               </div>
               
 
               {/* Right: Actions */}
               <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
+                {/* DateType Selector */}
+                {<DateSelect />}
+                {/*<DropdownDateTypeSelect selectedType={selectedType} setSelectedType={setSelectedType}/>*/}
                 {/* Datepicker built with flatpickr */}
                 <Datepicker align='left'/>               
               </div>
@@ -46,15 +52,25 @@ function Transactions() {
 
             {/* Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/*Revenue Graph*/}
+                {(selectedOption != null) && <WeeklyRevenueCard />}
+                
                 {/*Expenses Graph*/}
                 {(selectedOption != null) && <MonthlySpendingCard /> }
-                {/*Calendar Graph*/}
+
+                {/*Profit Margin Graph*/}
+                {(selectedOption != null) && <ProfitMargin /> }
                 
-                {/*Weekly Graph*/}
-                {(selectedOption != null) && <WeeklyRevenueCard />}
+                {/*Growth Rate Graph*/}     
+                {(selectedOption != null) && <GrowthRate /> }
+
+                {/*Top Spendings list*/}
+                {(selectedOption != null) && <TopSpending/>}                
 
                 {/*Daily Traffic Graph*/}
                 {(selectedOption != null) && <DailyTrafficCard />}
+
+
     
             </div>
           </div>
