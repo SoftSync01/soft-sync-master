@@ -22,29 +22,30 @@ import DashboardCard13 from '../partials/dashboard/DashboardCard13';
 import Banner from '../partials/Banner';
 import { auth } from "../firebase/firebase-config";
 import { useNavigate } from 'react-router-dom';
-import { DndContext, useDroppable } from '@dnd-kit/core';
+import { DndContext, closestCenter, closestCorners, useDroppable } from '@dnd-kit/core';
 import { Draggable } from './Draggable';
 import { Droppable } from './Droppable';
-import { SortableContext } from '@dnd-kit/sortable';
+import { SortableContext, arrayMove, rectSortingStrategy, verticalListSortingStrategy, rectSwappingStrategy, horizontalListSortingStrategy } from '@dnd-kit/sortable';
+import { Card } from './Card';
 
 
 function Dashboard() {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [cards, setCards] = useState([
-    { id: "card01", object: <Draggable id="card01"> <DashboardCard01 /></Draggable>},
-    { id: "card02", object: <Draggable id="card02"> <DashboardCard02 /></Draggable>},
-    { id: "card03", object: <Draggable id="card03"> <DashboardCard03 /></Draggable>},
-    { id: "card04", object: <Draggable id="card04"> <DashboardCard04 /></Draggable>},
-    { id: "card05", object: <Draggable id="card05"> <DashboardCard05 /></Draggable>},
-    { id: "card06", object: <Draggable id="card06"> <DashboardCard06 /></Draggable>},
-    { id: "card07", object: <Draggable id="card07"> <DashboardCard07 /></Draggable>},
-    { id: "card08", object: <Draggable id="card08"> <DashboardCard08 /></Draggable>},
-    { id: "card09", object: <Draggable id="card09"> <DashboardCard09 /></Draggable>},
-    { id: "card10", object: <Draggable id="card10"> <DashboardCard10 /></Draggable>},
-    { id: "card11", object: <Draggable id="card11"> <DashboardCard11 /></Draggable>},
-    { id: "card12", object: <Draggable id="card12"> <DashboardCard12 /></Draggable>},
-    { id: "card13", object: <Draggable id="card13"> <DashboardCard13 /></Draggable>}
+    { id: 1, object: <DashboardCard01 />},
+    { id: 2, object: <DashboardCard02 />},
+    { id: 3, object: <DashboardCard03 />},
+    { id: "card04", object: <DashboardCard04 />},
+    { id: "card05", object: <DashboardCard05 />},
+    { id: "card06", object: <DashboardCard06 />},
+    { id: "card07", object: <DashboardCard07 />},
+    { id: "card08", object: <DashboardCard08 />},
+    { id: "card09", object: <DashboardCard09 />},
+    { id: "card10", object: <DashboardCard10 />},
+    { id: "card11", object: <DashboardCard11 />},
+    { id: "card12", object: <DashboardCard12 />},
+    { id: "card13", object: <DashboardCard13 />}
   ])
 
   return (
@@ -88,16 +89,15 @@ function Dashboard() {
             </div>
 
             {/* Cards */}
-            <DndContext>
-                <div className="grid grid-cols-12 gap-6" >
-              
-                      {cards.map(card =>    
-                        card.object
-                      )}    
-                  
-          
-              
-                </div>
+            <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+            <div className="grid grid-cols-12 gap-6" >
+              <SortableContext items={cards} strategy={horizontalListSortingStrategy} >
+                  {cards.map(card =>    
+                    // <div key={card.id}>{card.object}</div>
+                    <Card id={card.id} object={card.object} key={card.id}/>
+                  )}    
+              </SortableContext>
+              </div>
             </DndContext>
           </div>
         </main>
@@ -106,7 +106,22 @@ function Dashboard() {
 
       </div>
     </div>
-  );
+  );       
+
+  function handleDragEnd(event) {
+    const {active, over} = event;
+    
+    if (active.id !== over.id) {
+      setCards((cards) => {
+        console.log(active.id + "over" + over.id)
+        const oldIndex = cards.indexOf(active.id);
+        const newIndex = cards.indexOf(over.id);
+        
+        return arrayMove(cards, oldIndex, newIndex);
+      });
+     
+    }
+  }
 }
 
 export default Dashboard;
