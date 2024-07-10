@@ -22,11 +22,30 @@ import DashboardCard13 from '../partials/dashboard/DashboardCard13';
 import Banner from '../partials/Banner';
 import { auth } from "../firebase/firebase-config";
 import { useNavigate } from 'react-router-dom';
+import { DndContext, useDroppable } from '@dnd-kit/core';
+import { Draggable } from './Draggable';
+import { Droppable } from './Droppable';
+import { SortableContext } from '@dnd-kit/sortable';
 
 
 function Dashboard() {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [cards, setCards] = useState([
+    { id: "card01", object: <Draggable id="card01"> <DashboardCard01 /></Draggable>},
+    { id: "card02", object: <Draggable id="card02"> <DashboardCard02 /></Draggable>},
+    { id: "card03", object: <Draggable id="card03"> <DashboardCard03 /></Draggable>},
+    { id: "card04", object: <Draggable id="card04"> <DashboardCard04 /></Draggable>},
+    { id: "card05", object: <Draggable id="card05"> <DashboardCard05 /></Draggable>},
+    { id: "card06", object: <Draggable id="card06"> <DashboardCard06 /></Draggable>},
+    { id: "card07", object: <Draggable id="card07"> <DashboardCard07 /></Draggable>},
+    { id: "card08", object: <Draggable id="card08"> <DashboardCard08 /></Draggable>},
+    { id: "card09", object: <Draggable id="card09"> <DashboardCard09 /></Draggable>},
+    { id: "card10", object: <Draggable id="card10"> <DashboardCard10 /></Draggable>},
+    { id: "card11", object: <Draggable id="card11"> <DashboardCard11 /></Draggable>},
+    { id: "card12", object: <Draggable id="card12"> <DashboardCard12 /></Draggable>},
+    { id: "card13", object: <Draggable id="card13"> <DashboardCard13 /></Draggable>}
+  ])
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -69,37 +88,17 @@ function Dashboard() {
             </div>
 
             {/* Cards */}
-            <div className="grid grid-cols-12 gap-6">
-
-              {/* Line chart (Soft Plus) */}
-              <DashboardCard01 />
-              {/* Line chart (Soft Advanced) */}
-              <DashboardCard02 />
-              {/* Line chart (Soft Professional) */}
-              <DashboardCard03 />
-              {/* Bar chart (Direct vs Indirect) */}
-              <DashboardCard04 />
-              {/* Line chart (Real Time Value) */}
-              <DashboardCard05 />
-              {/* Doughnut chart (Top Countries) */}
-              <DashboardCard06 />
-              {/* Table (Top Channels) */}
-              <DashboardCard07 />
-              {/* Line chart (Sales Over Time) */}
-              <DashboardCard08 />
-              {/* Stacked bar chart (Sales VS Refunds) */}
-              <DashboardCard09 />
-              {/* Card (Customers) */}
-              <DashboardCard10 />
-              {/* Card (Reasons for Refunds) */}
-              <DashboardCard11 />
-              {/* Card (Recent Activity) */}
-              <DashboardCard12 />
-              {/* Card (Income/Expenses) */}
-              <DashboardCard13 />
+            <DndContext>
+                <div className="grid grid-cols-12 gap-6" >
               
-            </div>
-
+                      {cards.map(card =>    
+                        card.object
+                      )}    
+                  
+          
+              
+                </div>
+            </DndContext>
           </div>
         </main>
 

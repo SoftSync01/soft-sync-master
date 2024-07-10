@@ -16,3 +16,13 @@
     height: 12vh; /* Full height of the viewport or any specific height */
 }
 
+.grid-container {
+    display: grid;
+    justify-content: space-evenly;
+  }
+
+.cardContainer {
+width: fit-content; 
+/* To adjust the height as well */ 
+height: fit-content;
+}
