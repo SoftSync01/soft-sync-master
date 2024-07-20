@@ -16,6 +16,8 @@ function Transactions() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedType, setSelectedType] = useState("Month");
+  const [DateRange, setDateRange] = useState([]);
+  const [Days, setDays] = useState(7);
 
 
   return (
@@ -43,29 +45,29 @@ function Transactions() {
               {/* Right: Actions */}
               <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
                 {/* DateType Selector */}
-                {<DateSelect />}
+                {<DateSelect setDays={setDays}/>}
                 {/*<DropdownDateTypeSelect selectedType={selectedType} setSelectedType={setSelectedType}/>*/}
                 {/* Datepicker built with flatpickr */}
-                <Datepicker align='left'/>               
+                <Datepicker align='left' Days={Days} setDateRange={setDateRange}/>               
               </div>
             </div>
 
             {/* Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/*Revenue Graph*/}
-                {(selectedOption != null) && <WeeklyRevenueCard />}
+                {(selectedOption != null) && <WeeklyRevenueCard DateRange={DateRange} />}
                 
                 {/*Expenses Graph*/}
-                {(selectedOption != null) && <MonthlySpendingCard /> }
+                {(selectedOption != null) && <MonthlySpendingCard DateRange={DateRange}/> }
 
                 {/*Profit Margin Graph*/}
-                {(selectedOption != null) && <ProfitMargin /> }
+                {(selectedOption != null) && <ProfitMargin DateRange={DateRange}/> }
                 
                 {/*Growth Rate Graph*/}     
-                {(selectedOption != null) && <GrowthRate /> }
+                {(selectedOption != null) && <GrowthRate DateRange={DateRange}/> }
 
                 {/*Top Spendings list*/}
-                {(selectedOption != null) && <TopSpending/>}                
+                {(selectedOption != null) && <TopSpending DateRange={DateRange}/>}                
 
                 {/*Daily Traffic Graph*/}
                 {(selectedOption != null) && <DailyTrafficCard />}

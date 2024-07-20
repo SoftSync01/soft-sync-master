@@ -4,9 +4,10 @@ import 'chart.js/auto';
 
 
 //Revenue [To do Week/Month/Year Filtering]
-export function WeeklyRevenueCard() {
+export function WeeklyRevenueCard({DateRange}) {
+
     const data = {
-        labels: ['17', '18', '19', '20', '21', '22', '23'],
+        labels: DateRange,
         datasets: [
             {
                 label: 'Revenue',
@@ -47,9 +48,9 @@ export function WeeklyRevenueCard() {
 }
 
 //Spendings Card [To do Week/Month/Year Filtering]
-export function MonthlySpendingCard() {
+export function MonthlySpendingCard({DateRange}) {
     const data = {
-        labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'],
+        labels: DateRange,
         datasets: [
             {
                 label: 'Spending',
@@ -90,7 +91,7 @@ export function MonthlySpendingCard() {
 }
 
 //Profit Margin [To do Week/Month/Year Filtering]
-export function ProfitMargin() {
+export function ProfitMargin({DateRange}) {
 
     const revenueData = [5000, 10000, 7500, 12500, 10000, 15000, 17500];
     const spendingData = [200, 5000, 5000, 5000, 5000, 5000, 10000];
@@ -107,7 +108,7 @@ export function ProfitMargin() {
     const profitMargins = calculateProfitMargins(revenueData, spendingData);
 
     const data = {
-        labels: ['17', '18', '19', '20', '21', '22', '23'],
+        labels: DateRange,
         datasets: [
             {
                 label: 'Profit',
@@ -148,7 +149,7 @@ export function ProfitMargin() {
 }
 
 //Growth Rate [To do Week/Month/Year Filtering]
-export function GrowthRate() {
+export function GrowthRate({DateRange}) {
 
     const calculateGrowthRates = (data) => {
         const growthRates = [];
@@ -163,7 +164,7 @@ export function GrowthRate() {
     const growthRates = calculateGrowthRates(revenueData);
 
     const data = {
-        labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'],
+        labels: DateRange,
         datasets: [
             {
                 label: 'Revenue change [%]',
@@ -204,9 +205,9 @@ export function GrowthRate() {
 }
 
 //Top Spending [To do Week/Month/Year Filtering]
-export function TopSpending() {
+export function TopSpending({DateRange}) {
     const data = {
-        labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'],
+        labels: DateRange,
         datasets: [
             {
                 label: 'Spending',

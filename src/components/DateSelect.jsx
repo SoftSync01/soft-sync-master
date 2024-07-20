@@ -1,33 +1,38 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Transition from '../utils/Transition';
 
-function DateSelect() {
+function DateSelect({setDays}) {
 
   const options = [
     {
       id: 0,
-      period: 'Today'
+      period: 'Past Week',
+      days: 7
     },
     {
       id: 1,
-      period: 'Last 7 Days'
+      period: 'Last 15 Days',
+      days: 15
     },
     {
       id: 2,
-      period: 'Last Month'
+      period: 'Last 30 Days',
+      days: 30
     },
     {
       id: 3,
-      period: 'Last 12 Months'
+      period: 'Last 3 Months',
+      days: 90
     },
     {
       id: 4,
-      period: 'All Time'
+      period: 'Last 6 Months',
+      days: 180
     }
   ];
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [selected, setSelected] = useState(2);
+  const [selected, setSelected] = useState(0);
 
   const trigger = useRef(null);
   const dropdown = useRef(null);
@@ -97,7 +102,7 @@ function DateSelect() {
                   key={option.id}
                   tabIndex="0"
                   className={`flex items-center w-full hover:bg-slate-50 hover:dark:bg-slate-700/20 py-1 px-3 cursor-pointer ${option.id === selected && 'text-indigo-500'}`}
-                  onClick={() => { setSelected(option.id); setDropdownOpen(false); }}
+                  onClick={() => { setSelected(option.id); setDays(option.days); setDropdownOpen(false); }}
                 >
                   <svg className={`shrink-0 mr-2 fill-current text-indigo-500 ${option.id !== selected && 'invisible'}`} width="12" height="9" viewBox="0 0 12 9">
                     <path d="M10.28.28L3.989 6.575 1.695 4.28A1 1 0 00.28 5.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28.28z" />
