@@ -1,10 +1,8 @@
-import React, { useState,useEffect } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
 import WelcomeBanner from '../partials/dashboard/WelcomeBanner';
 import DashboardAvatars from '../partials/dashboard/DashboardAvatars';
-//import FilterButton from '../components/DropdownFilter';
 import Datepicker from '../components/Datepicker';
 import AddView from '../components/AddView';
 import DashboardCard01 from '../partials/dashboard/DashboardCard01';
@@ -24,149 +22,133 @@ import Banner from '../partials/Banner';
 import { auth } from "../firebase/firebase-config";
 import { useNavigate } from 'react-router-dom';
 import { db } from "../firebase/firebase-config";
-import { getDatabase, ref,child,get,set,update,remove,push } from "firebase/database";
+import { get, ref } from "firebase/database";
 import DropdownFilter from '../components/DropdownFilter';
+import { DndContext } from '@dnd-kit/core';
+import { SortableContext, useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { SortableCard } from '../partials/dashboard/SortableCards';
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentuid, setCurrentUser] = useState("");
+  const [dashboardState, setDashboardState] = useState([
+    { id: 'card01', visible: true, component: DashboardCard01 },
+    { id: 'card02', visible: true, component: DashboardCard02 },
+    { id: 'card03', visible: false, component: DashboardCard03 },
+    { id: 'card04', visible: false, component: DashboardCard04 },
+    { id: 'card05', visible: false, component: DashboardCard05 },
+    { id: 'card06', visible: false, component: DashboardCard06 },
+    { id: 'card07', visible: false, component: DashboardCard07 },
+    { id: 'card08', visible: false, component: DashboardCard08 },
+    { id: 'card09', visible: false, component: DashboardCard09 },
+    { id: 'card10', visible: false, component: DashboardCard10 },
+    { id: 'card11', visible: false, component: DashboardCard11 },
+    { id: 'card12', visible: false, component: DashboardCard12 },
+    { id: 'card13', visible: false, component: DashboardCard13 },
+  ]);
 
   const navigate = useNavigate();
 
-  // Save states to remember customisability
-  const [dashboardState, setDashboardState] = useState({
-    card01: true,
-    card02: true,
-    card03: false,
-    card04: false,
-    card05: false,
-    card06: false,
-    card07: false,
-    card08: false,
-    card09: false,
-    card10: false,
-    card11: false,
-    card12: false,
-    card13: false,
-  });
-
-  useEffect(()=> {
+  useEffect(() => {
     getLoggedInfo();
-  },[]);
+  }, []);
 
   const updateDashboardState = (updates) => {
-    setDashboardState((prevState) => ({
-      ...prevState,
-      ...updates,
-    }));
-    console.log("update Complete");
+    setDashboardState((prevState) => {
+      const updatedState = prevState.map((card) =>
+        updates[card.id] !== undefined ? { ...card, visible: updates[card.id] } : card
+      );
+      return updatedState;
+    });
   };
 
-  const getLoggedInfo = async(e)=>{
-    if(auth.currentUser == null){
+  const getLoggedInfo = async () => {
+    if (auth.currentUser == null) {
       navigate("/");
       return;
     }
     const currentuid = auth.currentUser.uid;
     setCurrentUser(currentuid);
-    const dbRef = ref(db,"user/"+ currentuid);
+    const dbRef = ref(db, "user/" + currentuid);
     const snapshot = await get(dbRef);
-    if(snapshot.exists){
+    if (snapshot.exists()) {
       const userData = snapshot.val();
-      setDashboardState({
-        card01: userData.card01,
-        card02: userData.card02,
-        card03: userData.card03,
-        card04: userData.card04,
-        card05: userData.card05,
-        card06: userData.card06,
-        card07: userData.card07,
-        card08: userData.card08,
-        card09: userData.card09,
-        card10: userData.card10,
-        card11: userData.card11,
-        card12: userData.card12,
-        card13: userData.card13,
-      });
-    }else{
-        alert("no data found");
+      setDashboardState((prevState) =>
+        prevState.map((card) => ({
+          ...card,
+          visible: userData[card.id] ?? false,
+        }))
+      );
+    } else {
+      alert("no data found");
     }
-    console.log("setup Complete");
-  }
+  };
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    if (active.id !== over.id) {
+      const oldIndex = dashboardState.findIndex(card => card.id === active.id);
+      const newIndex = dashboardState.findIndex(card => card.id === over.id);
+
+      const updatedCards = [...dashboardState];
+      const [movedCard] = updatedCards.splice(oldIndex, 1);
+      updatedCards.splice(newIndex, 0, movedCard);
+
+      setDashboardState(updatedCards);
+    }
+  };
+
+  const renderCard = (card) => {
+    const { id, component: CardComponent, visible } = card;
+    return visible ? (
+      <SortableCard key={id} id={id} component={CardComponent} currentUid={currentuid} updateDashboardState={updateDashboardState} />
+    ) : null;
+  };
 
   return (
     <div className="flex h-screen overflow-hidden">
-
       {/* Sidebar */}
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       {/* Content area */}
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-
-        {/*  Site header */}
+        {/* Site header */}
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         <main>
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
-
             {/* Welcome banner */}
             <WelcomeBanner />
 
             {/* Dashboard actions */}
             <div className="sm:flex sm:justify-between sm:items-center mb-8">
-
               {/* Left: Avatars */}
               <DashboardAvatars />
 
               {/* Right: Actions */}
               <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
                 {/* Filter button */}
-                <DropdownFilter dashboardState={dashboardState} updateDashboardState={updateDashboardState}/>
+                <DropdownFilter dashboardState={dashboardState} updateDashboardState={updateDashboardState} />
                 {/* Datepicker built with flatpickr */}
                 <Datepicker />
                 {/* Add view button */}
-                <AddView currentUid={currentuid} updateDashboardState={updateDashboardState} />               
+                <AddView currentUid={currentuid} updateDashboardState={updateDashboardState} />
               </div>
-
             </div>
 
             {/* Cards */}
-            <div className="grid grid-cols-12 gap-6">
-
-              {/* Line chart (Soft Plus) */}
-              {dashboardState.card01 && <DashboardCard01 currentUid={currentuid} updateDashboardState={updateDashboardState} />}
-              {/* Line chart (Soft Advanced) */}
-              {dashboardState.card02 && <DashboardCard02 currentUid={currentuid} updateDashboardState={updateDashboardState} />}
-              {/* Line chart (Soft Professional) */}
-              {dashboardState.card03 && <DashboardCard03 currentUid={currentuid} updateDashboardState={updateDashboardState} />}
-              {/* Bar chart (Direct vs Indirect) */}
-              {dashboardState.card04 && <DashboardCard04 currentUid={currentuid} updateDashboardState={updateDashboardState} />}
-              {/* Line chart (Real Time Value) */}
-              {dashboardState.card05 && <DashboardCard05 currentUid={currentuid} updateDashboardState={updateDashboardState}/>}
-              {/* Doughnut chart (Top Countries) */}
-              {dashboardState.card06 && <DashboardCard06 />}
-              {/* Table (Top Channels) */}
-              {dashboardState.card07 && <DashboardCard07 />}
-              {/* Line chart (Sales Over Time) */}
-              {dashboardState.card08 && <DashboardCard08 />}
-              {/* Stacked bar chart (Sales VS Refunds) */}
-              {dashboardState.card09 && <DashboardCard09 />}
-              {/* Card (Customers) */}
-              {dashboardState.card10 && <DashboardCard10 />}
-              {/* Card (Reasons for Refunds) */}
-              {dashboardState.card11 && <DashboardCard11 />}
-              {/* Card (Recent Activity) */}
-              {dashboardState.card12 && <DashboardCard12 />}
-              {/* Card (Income/Expenses) */}
-              {dashboardState.card13 && <DashboardCard13 />}
-              
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <DndContext onDragEnd={handleDragEnd}>
+                <SortableContext items={dashboardState.filter(card => card.visible).map(card => card.id)}>
+                  {dashboardState.map(renderCard)}
+                </SortableContext>
+              </DndContext>
             </div>
-
           </div>
         </main>
 
         <Banner />
-
       </div>
     </div>
   );
