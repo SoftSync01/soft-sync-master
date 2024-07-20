@@ -33,9 +33,9 @@ function Dashboard() {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [cards, setCards] = useState([
-    { id: 1, object: <DashboardCard01 />},
-    { id: 2, object: <DashboardCard02 />},
-    { id: 3, object: <DashboardCard03 />},
+    { id: "card01", object: <DashboardCard01 />},
+    { id: "card02", object: <DashboardCard02 />},
+    { id: "card03", object: <DashboardCard03 />},
     { id: "card04", object: <DashboardCard04 />},
     { id: "card05", object: <DashboardCard05 />},
     { id: "card06", object: <DashboardCard06 />},
@@ -47,6 +47,22 @@ function Dashboard() {
     { id: "card12", object: <DashboardCard12 />},
     { id: "card13", object: <DashboardCard13 />}
   ])
+
+  const getCardPos = id => cards.findIndex(card =>
+    card.id === id)
+
+  const handleDragEnd = event => {
+    const {active, over} = event;
+
+      if (active.id === over.id) return;
+
+      setCards(cards => {
+        const originalIndex = getCardPos(active.id)
+        const newIndex = getCardPos(over.id)
+        
+        return arrayMove(cards, originalIndex, newIndex)
+      })
+  }
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -90,12 +106,14 @@ function Dashboard() {
 
             {/* Cards */}
             <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-            <div className="grid grid-cols-12 gap-6" >
-              <SortableContext items={cards} strategy={horizontalListSortingStrategy} >
+            <div >
+              <SortableContext items={cards} strategy={rectSortingStrategy} >
+                <div className="grid grid-cols-12 gap-6 ">
                   {cards.map(card =>    
                     // <div key={card.id}>{card.object}</div>
                     <Card id={card.id} object={card.object} key={card.id}/>
                   )}    
+                  </div>
               </SortableContext>
               </div>
             </DndContext>
@@ -108,20 +126,20 @@ function Dashboard() {
     </div>
   );       
 
-  function handleDragEnd(event) {
-    const {active, over} = event;
-    
-    if (active.id !== over.id) {
-      setCards((cards) => {
-        console.log(active.id + "over" + over.id)
-        const oldIndex = cards.indexOf(active.id);
-        const newIndex = cards.indexOf(over.id);
+  // function handleDragEnd(event) {
+  //   const {active, over} = event;
+
+  //   if (active.id !== over.id) {
+  //     setCards(cards => {
+  //       console.log(active.id + "over" + over.id)
+  //       const oldIndex = cards.indexOf(active.id); // not sure what the fuck is wrong, but smth is wrong here
+  //       const newIndex = cards.indexOf(over.id);
         
-        return arrayMove(cards, oldIndex, newIndex);
-      });
+  //       return arrayMove(cards, oldIndex, newIndex);
+  //     })
      
-    }
-  }
+  //   }
+  // }
 }
 
 export default Dashboard;

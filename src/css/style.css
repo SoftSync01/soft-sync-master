@@ -17,12 +17,16 @@
 }
 
 .grid-container {
-    display: grid;
-    justify-content: space-evenly;
+    display: flex;
+    justify-content: space-around;
   }
 
 .cardContainer {
+display: flex;
+justify-content: space-between;
 width: fit-content; 
 /* To adjust the height as well */ 
-height: fit-content;
+height: fit-content; 
+
+
 }
