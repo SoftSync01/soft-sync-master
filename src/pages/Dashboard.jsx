@@ -123,7 +123,7 @@ function Dashboard() {
                 {/* Filter button */}
                 <DropdownFilter dashboardState={dashboardState} updateDashboardState={updateDashboardState}/>
                 {/* Datepicker built with flatpickr */}
-                <Datepicker />
+                
                 {/* Add view button */}
                 <AddView currentUid={currentuid} updateDashboardState={updateDashboardState} />               
               </div>
