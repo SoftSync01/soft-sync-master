@@ -24,28 +24,27 @@ import { useNavigate } from 'react-router-dom';
 import { db } from "../firebase/firebase-config";
 import { get, ref } from "firebase/database";
 import DropdownFilter from '../components/DropdownFilter';
-import { DndContext } from '@dnd-kit/core';
-import { SortableContext, useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
+import { DndContext, KeyboardSensor, useSensor, useSensors, MouseSensor } from '@dnd-kit/core';
+import { SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { SortableCard } from '../partials/dashboard/SortableCards';
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentuid, setCurrentUser] = useState("");
   const [dashboardState, setDashboardState] = useState([
-    { id: 'card01', visible: true, component: DashboardCard01 },
-    { id: 'card02', visible: true, component: DashboardCard02 },
-    { id: 'card03', visible: false, component: DashboardCard03 },
-    { id: 'card04', visible: false, component: DashboardCard04 },
-    { id: 'card05', visible: false, component: DashboardCard05 },
-    { id: 'card06', visible: false, component: DashboardCard06 },
-    { id: 'card07', visible: false, component: DashboardCard07 },
-    { id: 'card08', visible: false, component: DashboardCard08 },
-    { id: 'card09', visible: false, component: DashboardCard09 },
-    { id: 'card10', visible: false, component: DashboardCard10 },
-    { id: 'card11', visible: false, component: DashboardCard11 },
-    { id: 'card12', visible: false, component: DashboardCard12 },
-    { id: 'card13', visible: false, component: DashboardCard13 },
+    { id: 'card01', visible: true, component: DashboardCard01, position: 1 },
+    { id: 'card02', visible: true, component: DashboardCard02, position: 2 },
+    { id: 'card03', visible: false, component: DashboardCard03, position: 3 },
+    { id: 'card04', visible: false, component: DashboardCard04, position: 4 },
+    { id: 'card05', visible: false, component: DashboardCard05, position: 5 },
+    { id: 'card06', visible: false, component: DashboardCard06, position: 6 },
+    { id: 'card07', visible: false, component: DashboardCard07, position: 7 },
+    { id: 'card08', visible: false, component: DashboardCard08, position: 8 },
+    { id: 'card09', visible: false, component: DashboardCard09, position: 9 },
+    { id: 'card10', visible: false, component: DashboardCard10, position: 10 },
+    { id: 'card11', visible: false, component: DashboardCard11, position: 11 },
+    { id: 'card12', visible: false, component: DashboardCard12, position: 12 },
+    { id: 'card13', visible: false, component: DashboardCard13, position: 13 },
   ]);
 
   const navigate = useNavigate();
@@ -94,17 +93,29 @@ function Dashboard() {
       const updatedCards = [...dashboardState];
       const [movedCard] = updatedCards.splice(oldIndex, 1);
       updatedCards.splice(newIndex, 0, movedCard);
-
+      console.log(updatedCards)
       setDashboardState(updatedCards);
     }
   };
 
   const renderCard = (card) => {
-    const { id, component: CardComponent, visible } = card;
+    const { id, component: CardComponent, visible, position } = card;
     return visible ? (
-      <SortableCard key={id} id={id} component={CardComponent} currentUid={currentuid} updateDashboardState={updateDashboardState} />
+      <SortableCard key={position} id={id} component={CardComponent} currentUid={currentuid} updateDashboardState={updateDashboardState} />
     ) : null;
-  };
+  }; 
+
+  const sensors = useSensors(
+    
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        delay: 25
+      },
+    })
+  );
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -139,7 +150,7 @@ function Dashboard() {
 
             {/* Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <DndContext onDragEnd={handleDragEnd}>
+              <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
                 <SortableContext items={dashboardState.filter(card => card.visible).map(card => card.id)}>
                   {dashboardState.map(renderCard)}
                 </SortableContext>
