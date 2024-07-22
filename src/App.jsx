@@ -19,7 +19,6 @@ import Analytics from './pages/Analytics';
 import Login from './pages/Login';
 import Transactions from './pages/finance/Transactions';
 import DatabaseTest from './pages/Database Test';
-import DnDTest from './pages/DnDTest';
 import PoS from './pages/Commerce/PoS';
 import Invoices from './pages/Commerce/Invoices';
 import Shop from './pages/Commerce/Shop';
@@ -51,7 +50,6 @@ function App() {
           <Route exact path="/dashboard/analytics" element={<Analytics />} />
           <Route exact path="/finance" element={<Transactions />} />
           <Route exact path="/database" element={<DatabaseTest />} />
-          <Route exact path="/DnDTest" element={<DnDTest />} />
           <Route exact path="/commerce/PoS" element={<PoS />} />
           <Route exact path="/commerce/invoices" element={<Invoices />} />
           <Route exact path="/commerce/shop" element={<Shop />} />
