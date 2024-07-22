@@ -22,7 +22,7 @@ import Banner from '../partials/Banner';
 import { auth } from "../firebase/firebase-config";
 import { useNavigate } from 'react-router-dom';
 import { db } from "../firebase/firebase-config";
-import { get, ref } from "firebase/database";
+import { get, ref, set, update} from "firebase/database";
 import DropdownFilter from '../components/DropdownFilter';
 import { DndContext, KeyboardSensor, useSensor, useSensors, MouseSensor } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
@@ -34,18 +34,19 @@ function Dashboard() {
   const [dashboardState, setDashboardState] = useState([
     { id: 'card01', visible: true, component: DashboardCard01, position: 1 },
     { id: 'card02', visible: true, component: DashboardCard02, position: 2 },
-    { id: 'card03', visible: false, component: DashboardCard03, position: 3 },
-    { id: 'card04', visible: false, component: DashboardCard04, position: 4 },
-    { id: 'card05', visible: false, component: DashboardCard05, position: 5 },
-    { id: 'card06', visible: false, component: DashboardCard06, position: 6 },
-    { id: 'card07', visible: false, component: DashboardCard07, position: 7 },
-    { id: 'card08', visible: false, component: DashboardCard08, position: 8 },
-    { id: 'card09', visible: false, component: DashboardCard09, position: 9 },
-    { id: 'card10', visible: false, component: DashboardCard10, position: 10 },
-    { id: 'card11', visible: false, component: DashboardCard11, position: 11 },
-    { id: 'card12', visible: false, component: DashboardCard12, position: 12 },
-    { id: 'card13', visible: false, component: DashboardCard13, position: 13 },
+    { id: 'card03', visible: true, component: DashboardCard03, position: 3 },
+    { id: 'card04', visible: true, component: DashboardCard04, position: 4 },
+    { id: 'card05', visible: true, component: DashboardCard05, position: 5 },
+    { id: 'card06', visible: true, component: DashboardCard06, position: 6 },
+    { id: 'card07', visible: true, component: DashboardCard07, position: 7 },
+    { id: 'card08', visible: true, component: DashboardCard08, position: 8 },
+    { id: 'card09', visible: true, component: DashboardCard09, position: 9 },
+    { id: 'card10', visible: true, component: DashboardCard10, position: 10 },
+    { id: 'card11', visible: true, component: DashboardCard11, position: 11 },
+    { id: 'card12', visible: true, component: DashboardCard12, position: 12 },
+    { id: 'card13', visible: true, component: DashboardCard13, position: 13 },
   ]);
+
 
   const navigate = useNavigate();
 
@@ -55,14 +56,18 @@ function Dashboard() {
 
   const updateDashboardState = (updates) => {
     setDashboardState((prevState) => {
-      const updatedState = prevState.map((card) =>
-        updates[card.id] !== undefined ? { ...card, visible: updates[card.id] } : card
-      );
+      const updatedState = prevState.map((card) => {
+        if (updates[card.id] !== undefined) {
+          return { ...card, visible: updates[card.id].visible };
+        }
+        return card;
+      });
       return updatedState;
     });
   };
 
   const getLoggedInfo = async () => {
+
     if (auth.currentUser == null) {
       navigate("/");
       return;
@@ -70,15 +75,27 @@ function Dashboard() {
     const currentuid = auth.currentUser.uid;
     setCurrentUser(currentuid);
     const dbRef = ref(db, "user/" + currentuid);
+    
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
-      const userData = snapshot.val();
-      setDashboardState((prevState) =>
-        prevState.map((card) => ({
-          ...card,
-          visible: userData[card.id] ?? false,
-        }))
-      );
+      const fetchedData = snapshot.val();
+
+    const transformedData = Object.keys(fetchedData).map(key => {
+      const dbItem = fetchedData[key];
+      const componentItem = dashboardState.find(item => item.id === key);
+      if (componentItem) {
+        return { id: key, ...dbItem, component: componentItem.component };
+      } else {
+        console.warn(`Component not found for key: ${key}`);
+        return { id: key, ...dbItem, component: null };
+      }
+    }).filter(item => item.component !== null); // Filter out items with no component
+
+    // Sort based on position
+    transformedData.sort((a, b) => a.position - b.position);
+
+    setDashboardState(transformedData);
+
     } else {
       alert("no data found");
     }
@@ -93,8 +110,24 @@ function Dashboard() {
       const updatedCards = [...dashboardState];
       const [movedCard] = updatedCards.splice(oldIndex, 1);
       updatedCards.splice(newIndex, 0, movedCard);
-      console.log(updatedCards)
-      setDashboardState(updatedCards);
+      const updatedCardsWithPosition = updatedCards.map((card, index) => ({
+        ...card,
+        position: index + 1
+      }));
+
+      console.log(updatedCardsWithPosition);
+      setDashboardState(updatedCardsWithPosition);
+
+    // Construct the updates object
+      const updates = {};
+      updatedCardsWithPosition.forEach(card => {
+        updates[`${card.id}/visible`] = card.visible;
+        updates[`${card.id}/position`] = card.position;
+      });
+
+      console.log(updates);
+      const dbRef = ref(db, "user/" + currentuid);
+      update(dbRef, updates);
     }
   };
 

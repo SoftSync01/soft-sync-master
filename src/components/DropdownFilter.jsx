@@ -73,18 +73,25 @@ function DropdownFilter({ align, dashboardState, updateDashboardState}) {
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
       const userData = snapshot.val();
+  
+      // Create a new object to hold the updated data
+      const updatedData = {};
+  
       for (const key in updates) {
         if (updates.hasOwnProperty(key)) {
-          // Check if key exists in userData before updating
           if (userData.hasOwnProperty(key)) {
-            userData[key] = updates[key];
+            // Update only the visible property, keeping the position unchanged
+            updatedData[key] = {
+              ...userData[key],
+              visible: updates[key]
+            };
           }
         }
       }
-      // Now userData contains updated values where keys exist in both objects
-      console.log(userData);
-      await update(dbRef,userData)
-      updateDashboardState(userData);
+  
+      console.log(updatedData);
+      await update(dbRef, updatedData);
+      updateDashboardState(updatedData);
     } else {
       alert("No data found");
       return;

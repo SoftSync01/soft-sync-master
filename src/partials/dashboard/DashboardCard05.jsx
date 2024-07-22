@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Tooltip from '../../components/Tooltip';
 import RealtimeChart from '../../charts/RealtimeChart';
 import EditMenu from '../../components/DropdownEditMenu';
-import { ref, update} from "firebase/database";
+import { ref, update, get} from "firebase/database";
 import { db } from '../../firebase/firebase-config';
 
 // Import utilities
@@ -91,10 +91,22 @@ function DashboardCard05({currentUid, updateDashboardState}) {
   const removeCard = async (e) => {
     console.log("Remove Button Pressed");
     const dbRef = ref(db, "user/" + currentUid);
-    const card = {'card05' : null};
-    console.log(dbRef);
-    update(dbRef,card);
-    updateDashboardState(card);
+    const snapshot = await get(dbRef);
+    if (snapshot.exists()) {
+      const userData = snapshot.val();
+      const updatedData = {
+        ...userData,
+        card05: {
+          ...userData.card05,
+          visible: null
+        }
+      };
+      console.log(dbRef);
+      await update(dbRef, updatedData);
+      updateDashboardState(updatedData);
+    } else {
+      alert("No data found");
+    }
   }
 
   return (

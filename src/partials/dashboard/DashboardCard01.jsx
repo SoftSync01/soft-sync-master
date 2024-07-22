@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import LineChart from '../../charts/LineChart01';
 import Icon from '../../images/icon-01.svg';
 import EditMenu from '../../components/DropdownEditMenu';
-import { ref, update} from "firebase/database";
+import { ref, update, get} from "firebase/database";
 import { db } from '../../firebase/firebase-config';
 
 // Import utilities
@@ -77,10 +77,22 @@ function DashboardCard01({currentUid, updateDashboardState}) {
   const removeCard = async (e) => {
     console.log("Remove Button Pressed");
     const dbRef = ref(db, "user/" + currentUid);
-    const card = {'card01' : null};
-    console.log(dbRef);
-    update(dbRef,card);
-    updateDashboardState(card);
+    const snapshot = await get(dbRef);
+    if (snapshot.exists()) {
+      const userData = snapshot.val();
+      const updatedData = {
+        ...userData,
+        card01: {
+          ...userData.card01,
+          visible: null
+        }
+      };
+      console.log(dbRef);
+      await update(dbRef, updatedData);
+      updateDashboardState(updatedData);
+    } else {
+      alert("No data found");
+    }
   }
 
   return (

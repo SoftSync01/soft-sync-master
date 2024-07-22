@@ -16,19 +16,19 @@ const Login = (props) => {
         const dbRef = ref(db,"user/" + userid);
         set(dbRef,{
             email: email,
-            card01: true,
-            card02: true,
-            card03: true,
-            card04: true,
-            card05: true,
-            card06: true,
-            card07: true,
-            card08: true,
-            card09: true,
-            card10: true,
-            card11: true,
-            card12: true,
-            card13: true
+            card01: { visible: true, position: 1 },
+            card02: { visible: true, position: 2 },
+            card03: { visible: true, position: 3 },
+            card04: { visible: true, position: 4 },
+            card05: { visible: true, position: 5 },
+            card06: { visible: true, position: 6 },
+            card07: { visible: true, position: 7 },
+            card08: { visible: true, position: 8 },
+            card09: { visible: true, position: 9 },
+            card10: { visible: true, position: 10 },
+            card11: { visible: true, position: 11 },
+            card12: { visible: true, position: 12 },
+            card13: { visible: true, position: 13 },
         })
         alert("User Creation Successful");
     }
