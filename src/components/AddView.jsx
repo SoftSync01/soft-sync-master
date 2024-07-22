@@ -44,7 +44,7 @@ function AddView({
     if (snapshot.exists()) {
       const userData = snapshot.val();
       const itemsArray = allCards
-        .filter(card => !userData.hasOwnProperty(card))
+        .filter(card => !(card in userData) || userData[card]?.visible === undefined)
         .map(card => ({
           id: card,
           label: card,
@@ -59,16 +59,29 @@ function AddView({
   const handleAddView = async (e) =>{
     setDropdownOpen(false);
     const selected = {};
-    items.forEach(item => {
-      if (item.checked) {
-        selected[item.id] = true;
-      }
-    });
-    //setSelectedCards(selected);
-    console.log('Selected cards:', selected);
-    const dbRef = ref(db,"user/" + currentUid);
-    update(dbRef,selected);
-    updateDashboardState(selected);
+    const dbRef = ref(db, "user/" + currentUid);
+
+    // Fetch the current state from the database
+    const snapshot = await get(dbRef);
+    if (snapshot.exists()) {
+      const userData = snapshot.val();
+  
+      items.forEach(item => {
+        if (item.checked) {
+          const cardData = userData[item.id]; // Extract the card data by its ID
+          const position = cardData ? cardData.position : null; // Get the current position if it exists
+          if (position !== null) {
+            selected[item.id] = { visible: true, position }; // Update visible and keep the existing position
+          }
+        }
+      });
+  
+      console.log('Selected cards:', selected);
+      update(dbRef, selected);
+      updateDashboardState(selected);
+    } else {
+      alert("No data found");
+    }
   }
 
   const handleCheckboxChange = (id) => {
