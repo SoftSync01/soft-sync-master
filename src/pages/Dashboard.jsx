@@ -30,6 +30,8 @@ import DropdownFilter from '../components/DropdownFilter';
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentuid, setCurrentUser] = useState("");
+  const [DateRange, setDateRange] = useState([]);
+  const [Days, setDays] = useState(7);
 
   const navigate = useNavigate();
 
@@ -123,7 +125,8 @@ function Dashboard() {
                 {/* Filter button */}
                 <DropdownFilter dashboardState={dashboardState} updateDashboardState={updateDashboardState}/>
                 {/* Datepicker built with flatpickr */}
-                <Datepicker />
+                <Datepicker Days={Days} setDateRange={setDateRange}/>
+                
                 {/* Add view button */}
                 <AddView currentUid={currentuid} updateDashboardState={updateDashboardState} />               
               </div>

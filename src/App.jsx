@@ -17,6 +17,7 @@ import './charts/ChartjsConfig';
 import Dashboard from './pages/Dashboard';
 import Analytics from './pages/Analytics';
 import Login from './pages/Login';
+import Transactions from './pages/finance/Transactions';
 import DatabaseTest from './pages/Database Test';
 import DnDTest from './pages/DnDTest';
 import PoS from './pages/Commerce/PoS';
@@ -48,6 +49,7 @@ function App() {
           <Route exact path="/" element={<Login />} />
           <Route exact path="/dashboard" element={<Dashboard />} />
           <Route exact path="/dashboard/analytics" element={<Analytics />} />
+          <Route exact path="/finance" element={<Transactions />} />
           <Route exact path="/database" element={<DatabaseTest />} />
           <Route exact path="/DnDTest" element={<DnDTest />} />
           <Route exact path="/commerce/PoS" element={<PoS />} />

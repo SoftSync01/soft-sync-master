@@ -24,7 +24,9 @@ import Banner from '../partials/Banner';
 function Dashboard() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const [DateRange, setDateRange] = useState([]);
+  const [Days, setDays] = useState(7);
+  
   return (
     <div className="flex h-screen overflow-hidden">
 
@@ -54,7 +56,7 @@ function Dashboard() {
                 {/* Filter button */}
                 <FilterButton />
                 {/* Datepicker built with flatpickr */}
-                <Datepicker />
+                <Datepicker Days={Days} setDateRange={setDateRange}/>
                 {/* Add view button */}
                 <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white">
                     <svg className="w-4 h-4 fill-current opacity-50 shrink-0" viewBox="0 0 16 16">
