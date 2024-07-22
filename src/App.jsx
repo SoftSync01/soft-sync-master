@@ -24,7 +24,7 @@ import PoS from './pages/Commerce/PoS';
 import Invoices from './pages/Commerce/Invoices';
 import Shop from './pages/Commerce/Shop';
 import Users from './pages/Community/Users';
-import Profile from './pages/Community/Profile';
+import Project from './pages/Community/Project';
 import Employees from './pages/Community/Employees';
 import List from './pages/Task/List';
 import Message from './pages/Message';
@@ -56,7 +56,7 @@ function App() {
           <Route exact path="/commerce/invoices" element={<Invoices />} />
           <Route exact path="/commerce/shop" element={<Shop />} />
           <Route exact path="/community/users" element={<Users />} />
-          <Route exact path="/community/profile" element={<Profile />} />
+          <Route exact path="/community/projects" element={<Project />} />
           <Route exact path="/community/employees" element={<Employees />} />
           <Route exact path="/tasks/list" element={<List />} />
           <Route exact path="/messages" element={<Message />} />

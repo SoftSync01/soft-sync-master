@@ -4,7 +4,7 @@ import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 import Banner from '../../partials/Banner';
 
-function Profile() {
+function Project() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -22,7 +22,7 @@ function Profile() {
             {/* Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/*Work in Progress*/}
-                Work in Progress (Profile Tab)
+                Work in Progress (Project Tab)
 
     
             </div>
@@ -36,4 +36,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default Project;
