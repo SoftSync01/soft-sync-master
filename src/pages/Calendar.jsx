@@ -3,10 +3,24 @@ import React, { useState } from 'react';
 import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin from "@fullcalendar/interaction"
+import timeGridPlugin from "@fullcalendar/timegrid"
 
 function Calendar() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const [events, setEvents] = useState([
+    { title: 'My Event', start: '2024-07-08T07:30:00', allDay: true },
+    { title: 'event 2', date: '2024-07-18' }
+  ]);
+
+  const addEvent = () => {
+    const newEvent = { title: 'New Event', date: new Date().toISOString().split('T')[0] };
+    setEvents([...events, newEvent]);
+  };
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -21,11 +35,29 @@ function Calendar() {
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
             {/* Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/*Work in Progress*/}
-                Work in Progress (Calendar Tab)
+              {/* Work in Progress */}
+              Work in Progress (Calendar Tab)
 
-    
+              {/* Add Event Button */}
             </div>
+            {/* Calendar Object */}
+            <FullCalendar
+              plugins={[dayGridPlugin]}
+              initialView={"dayGridMonth"}
+              headerToolbar={{
+                start: "addEventButton",
+                center: "title",
+                end: "today prev,next",
+              }}
+              customButtons={{
+                addEventButton: {
+                  text: 'Add Event',
+                  click: addEvent
+                }
+              }}
+              weekends={true}
+              events={events}
+            />
           </div>
         </main>
 
