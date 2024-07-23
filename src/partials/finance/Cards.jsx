@@ -2,7 +2,6 @@ import React from 'react';
 import { Line, Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
 
-
 //Revenue [To do Week/Month/Year Filtering]
 export function WeeklyRevenueCard({DateRange}) {
 
@@ -31,14 +30,14 @@ export function WeeklyRevenueCard({DateRange}) {
     };
 
     return (
-        <div className="bg-white p-6 rounded-xl shadow-md col-span-12 sm:col-span-12 lg:col-span-12">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-md col-span-12 sm:col-span-12 lg:col-span-12">
             <div className="flex justify-between items-center">
-                <span className="text-gray-500">Revenue</span>
-                <span className="text-gray-400">...</span>
+                <span className="text-gray-500 dark:text-slate-100">Revenue</span>
+                <span className="text-gray-400 dark:text-slate-400">...</span>
             </div>
             <div className="mt-2">
-                <h2 className="text-2xl font-bold">$37.5K</h2>
-                <span className="text-green-500">On track</span>
+                <h2 className="text-2xl font-bold dark:text-slate-100">$37.5K</h2>
+                <span className="text-green-500 dark:text-green-400">On track</span>
             </div>
             <div className="mt-4 h-36">
                 <Line data={data} options={options} />
@@ -74,14 +73,14 @@ export function MonthlySpendingCard({DateRange}) {
     };
 
     return (
-        <div className="bg-white p-6 rounded-xl shadow-md col-span-4 sm:col-span-4 lg:col-span-4">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-md col-span-4 sm:col-span-4 lg:col-span-4">
             <div className="flex justify-between items-center">
-                <span className="text-gray-500">Spendings</span>
-                <span className="text-gray-400">...</span>
+                <span className="text-gray-500 dark:text-slate-100">Spendings</span>
+                <span className="text-gray-400 dark:text-slate-400">...</span>
             </div>
             <div className="mt-2">
-                <h2 className="text-2xl font-bold">$37.5K</h2>
-                <span className="text-green-500">On track</span>
+                <h2 className="text-2xl font-bold dark:text-slate-100">$37.5K</h2>
+                <span className="text-green-500 dark:text-green-400">On track</span>
             </div>
             <div className="mt-4 h-36">
                 <Line data={data} options={options} />
@@ -132,14 +131,14 @@ export function ProfitMargin({DateRange}) {
     };
 
     return (
-        <div className="bg-white p-6 rounded-xl shadow-md col-span-4 sm:col-span-4 lg:col-span-4">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-md col-span-4 sm:col-span-4 lg:col-span-4">
             <div className="flex justify-between items-center">
-                <span className="text-gray-500">Profit Margin</span>
-                <span className="text-gray-400">...</span>
+                <span className="text-gray-500 dark:text-slate-100">Profit Margin</span>
+                <span className="text-gray-400 dark:text-slate-400">...</span>
             </div>
             <div className="mt-2">
-            <h2 className="text-2xl font-bold">{profitMargins[profitMargins.length - 1] + "%"}</h2>
-                <span className="text-green-500">On track</span>
+                <h2 className="text-2xl font-bold dark:text-slate-100">{profitMargins[profitMargins.length - 1] + "%"}</h2>
+                <span className="text-green-500 dark:text-green-400">On track</span>
             </div>
             <div className="mt-4 h-36">
                 <Line data={data} options={options} />
@@ -188,14 +187,14 @@ export function GrowthRate({DateRange}) {
     };
 
     return (
-        <div className="bg-white p-6 rounded-xl shadow-md col-span-4 sm:col-span-4 lg:col-span-4">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-md col-span-4 sm:col-span-4 lg:col-span-4">
             <div className="flex justify-between items-center">
-                <span className="text-gray-500">Growth Rate</span>
-                <span className="text-gray-400">...</span>
+                <span className="text-gray-500 dark:text-slate-100">Growth Rate</span>
+                <span className="text-gray-400 dark:text-slate-400">...</span>
             </div>
             <div className="mt-2">
-            <h2 className="text-2xl font-bold">{growthRates[growthRates.length - 1] + "%"}</h2>
-                <span className="text-green-500">On track</span>
+                <h2 className="text-2xl font-bold dark:text-slate-100">{growthRates[growthRates.length - 1] + "%"}</h2>
+                <span className="text-green-500 dark:text-green-400">On track</span>
             </div>
             <div className="mt-4 h-36">
                 <Line data={data} options={options} />
@@ -320,7 +319,7 @@ export function TopSpending({DateRange}) {
       );
 }
 
-// Daily Trafic [Sort by Week/Month/Year]
+// Daily Traffic [Sort by Week/Month/Year]
 export function DailyTrafficCard() {
     const data = {
         labels: ['0', '4', '8', '12', '16'],
@@ -346,14 +345,14 @@ export function DailyTrafficCard() {
     };
 
     return (
-        <div className="bg-white p-6 rounded-xl shadow-md col-span-12 sm:col-span-12 lg:col-span-12">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-md col-span-12 sm:col-span-12 lg:col-span-12">
             <div className="flex justify-between items-center">
-                <span className="text-gray-500">Customer Traffic</span>
-                <span className="text-gray-400">...</span>
+                <span className="text-gray-500 dark:text-slate-100">Customer Traffic</span>
+                <span className="text-gray-400 dark:text-slate-400">...</span>
             </div>
             <div className="mt-2">
-                <h2 className="text-2xl font-bold">2,579</h2>
-                <span className="text-green-500">+4.26%</span>
+                <h2 className="text-2xl font-bold dark:text-slate-100">2,579</h2>
+                <span className="text-green-500 dark:text-green-400">+4.26%</span>
             </div>
             <div className="mt-4 h-36">
                 <Bar data={data} options={options} />
