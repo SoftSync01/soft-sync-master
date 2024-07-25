@@ -69,12 +69,6 @@ function List() {
     console.log(tasks)
   };
 
-  // const addTask = (title) => {
-  //   const newId = tasks.length + 1;
-  //   setTasks((tasks) => [...tasks, { id: newId, title }]);
-  //   setCheckedItems((checkedItems) => ({ ...checkedItems, [newId]: false }));
-  // };
-
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
