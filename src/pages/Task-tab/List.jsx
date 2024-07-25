@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
@@ -11,11 +11,15 @@ import {
   useSensor,
   useSensors,
   closestCorners,
+  MouseSensor,
 } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { Column } from './Column/Column';
 import { Input } from './Input/Input';
-import { RemoveBt } from './Remove-bt/Remove-bt';
+import { auth, db } from '../../firebase/firebase-config';
+import { get, ref, set, update } from 'firebase/database';
+import { useNavigate } from 'react-router-dom';
+
 
 function List() {
 
@@ -26,13 +30,43 @@ function List() {
     { id: 3, title: "Learn how to center a div" },
   ]);
 
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   getLoggedInfo();
+  // }, []);
+
+  const getLoggedInfo = async () => {
+
+    if (auth.currentUser == null) {
+      navigate("/");
+      return;
+    }
+
+    const currentuid = auth.currentUser.uid;
+    const dbRef = ref(db, "user/" + currentuid + "/tasks");
+    
+    const snapshot = await get(dbRef);
+    if (snapshot.exists()) {
+      const fetchedData = snapshot.val();
+      setTasks(fetchedData);
+
+    } else {
+      alert("no data found");
+    }
+  };
+
   const addTask = (title) => {
+    const currentuid = auth.currentUser.uid;
+    const dbRef = ref(db, "user/" + currentuid + "/tasks");
     setTasks((tasks) => [...tasks, { id: tasks.length + 1, title }]);
-    setCheckedItems({ ...checkedItems, [title]: false });
+    console.log(tasks)
+    set(dbRef, tasks);
   };
 
   const handleRemoveTask = (id) => {
     setTasks((tasks) => tasks.filter((task) => task.id !== id));
+    console.log(tasks)
   };
 
   // const addTask = (title) => {
@@ -42,9 +76,18 @@ function List() {
   // };
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+       distance: 25
+      }
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
+    }),
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        delay: 25
+      },
     })
   );
 

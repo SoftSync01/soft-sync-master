@@ -16,7 +16,7 @@
     width: 20px;
   }
 
-  .inputWithButton:hover {
+  .inputWithButton {
     right: 0;
     background-color: #9104aa;
     border: none;

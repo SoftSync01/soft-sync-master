@@ -12,6 +12,11 @@ export const Task = ({ id, title, onRemove }) => {
     transform: CSS.Transform.toString(transform),
   };
 
+  const handleSubmit = () => {
+    console.log("testing")
+    onRemove(id)
+  };
+
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="task">
       {/* <input type="text" className="checkbox" checked={checked} onChange={() => {
@@ -20,9 +25,10 @@ export const Task = ({ id, title, onRemove }) => {
         }} /> */}
 
       {title}
-      {/* <div class="align-right"> */}
-      <button className="inputWithButton" onClick={() => onRemove(id)}>remove</button>
-      {/* </div> */}
+      <div class="align-right">
+      <button className="btn btn-success btn-lg float-right inputWithButton" type="submit" onClick={handleSubmit}>remove</button>
+      </div>
     </div>
   );
 };
+
