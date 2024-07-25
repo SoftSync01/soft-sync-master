@@ -46,7 +46,6 @@ function Dashboard() {
     { id: 'card12', visible: true, component: DashboardCard12, position: 12 },
     { id: 'card13', visible: true, component: DashboardCard13, position: 13 },
   ]);
-  
   const [DateRange, setDateRange] = useState([]);
   const [Days, setDays] = useState(7);
 
