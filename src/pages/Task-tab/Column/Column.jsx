@@ -9,8 +9,8 @@ import "./Column.css";
 
 export const Column = ({ tasks, onRemove }) => {
   return (
-    <div className="column">
-      <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
+    <div className="column dark:bg-slate-700">
+      <SortableContext items={tasks} strategy={verticalListSortingStrategy} >
         {tasks.map((task) => (
           <Task key={task.id} id={task.id} title={task.title} onRemove={onRemove}/>
         ))}

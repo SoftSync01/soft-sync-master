@@ -16,12 +16,12 @@ export const Input = ({ onSubmit }) => {
   return (
     <div className="container">
       <input
-        className="input"
+        className="input dark:bg-slate-800"
         type="text"
         value={input}
         onChange={(e) => setInput(e.target.value)}
       />
-      <button onClick={handleSubmit} className="button">
+      <button onClick={handleSubmit} className="button dark:bg-slate-700" >
         Add
       </button>
     </div>

@@ -18,15 +18,15 @@ export const Task = ({ id, title, onRemove }) => {
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="task">
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="task  dark:bg-slate-800">
       {/* <input type="text" className="checkbox" checked={checked} onChange={() => {
             console.log("Checkbox clicked:", id);  // Add this line
         onCheckChange(id);
         }} /> */}
 
       {title}
-      <div class="align-right">
-      <button className="btn btn-success btn-lg float-right inputWithButton" type="submit" onClick={handleSubmit}>remove</button>
+      <div class="align-right ">
+      <button className="btn btn-success btn-lg float-right inputWithButton  dark:bg-slate-900" type="submit" onClick={handleSubmit}>remove</button>
       </div>
     </div>
   );
