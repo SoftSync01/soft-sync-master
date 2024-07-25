@@ -7,6 +7,7 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from "@fullcalendar/interaction"
 import timeGridPlugin from "@fullcalendar/timegrid"
+import EventPopup from '../partials/Calendar/EventPopup'
 
 function Calendar() {
 
@@ -19,8 +20,36 @@ function Calendar() {
 
   const addEvent = () => {
     const newEvent = { title: 'New Event', date: new Date().toISOString().split('T')[0] };
-    setEvents([...events, newEvent]);
+    //setEvents([...events, newEvent]);
   };
+
+  const [open, setOpen] = useState(false);
+
+  const handleOpenNewsletterModal = () => {
+    setOpen(true);
+  };
+
+  const handleCloseNewsletterModal = () => {
+    setOpen(false);
+  };
+
+  const handleSaveEvent = () => {
+    // Add your save logic here
+    console.log("Event saved");
+    setOpen(false);
+  };
+
+  const modal = document.querySelector("#modal");
+  const openModal = document.querySelector("#openModal");
+  const closeModal = document.querySelector("#closeModal");
+
+  if (modal) {
+    openModal &&
+      openModal.addEventListener("click", () => modal.showModal());
+
+    closeModal &&
+      closeModal.addEventListener("click", () => modal.close());
+  }
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -38,7 +67,8 @@ function Calendar() {
               {/* Work in Progress */}
               Work in Progress (Calendar Tab)
 
-              {/* Add Event Button */}
+              {/* Add Modal */}
+              <EventPopup open={open} handleClose={handleCloseNewsletterModal} handleSave={handleSaveEvent}/>
             </div>
             {/* Calendar Object */}
             <FullCalendar
@@ -52,7 +82,7 @@ function Calendar() {
               customButtons={{
                 addEventButton: {
                   text: 'Add Event',
-                  click: addEvent
+                  click: handleOpenNewsletterModal
                 }
               }}
               weekends={true}
