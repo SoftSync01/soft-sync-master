@@ -97,6 +97,7 @@ function DropdownFilter({ align, dashboardState, updateDashboardState}) {
         }
       }
   
+      
       console.log(updatedData);
       await update(dbRef, updatedData);
       updateDashboardState(updatedData);
