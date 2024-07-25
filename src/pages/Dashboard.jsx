@@ -123,7 +123,7 @@ function Dashboard() {
     // Construct the updates object
       const updates = {};
       updatedCardsWithPosition.forEach(card => {
-        updates[`${card.id}/visible`] = card.visible;
+        updates[`${card.id}/visible`] = card.visible !== undefined ? card.visible : null;
         updates[`${card.id}/position`] = card.position;
       });
 

@@ -76,14 +76,22 @@ function DropdownFilter({ align, dashboardState, updateDashboardState}) {
   
       // Create a new object to hold the updated data
       const updatedData = {};
-  
+     
+      console.log(userData);
       for (const key in updates) {
         if (updates.hasOwnProperty(key)) {
           if (userData.hasOwnProperty(key)) {
-            // Update only the visible property, keeping the position unchanged
-            updatedData[key] = {
-              ...userData[key],
-              visible: updates[key]
+            if (userData[key].hasOwnProperty('visible')) {
+              // Update only the visible property, keeping the position unchanged
+              updatedData[key] = {
+                ...userData[key],
+                visible: updates[key]
+              };
+            } else {
+              // Keep the existing data unchanged if 'visible' field does not exist
+              updatedData[key] = {
+                ...userData[key]
+              };
             };
           }
         }
