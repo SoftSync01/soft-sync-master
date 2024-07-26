@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
@@ -8,6 +8,9 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from "@fullcalendar/interaction"
 import timeGridPlugin from "@fullcalendar/timegrid"
 import EventPopup from '../partials/Calendar/EventPopup'
+import { auth } from "../firebase/firebase-config";
+import { db } from "../firebase/firebase-config";
+import { get, ref, set, update} from "firebase/database";
 
 function Calendar() {
 
@@ -18,9 +21,37 @@ function Calendar() {
     { title: 'event 2', date: '2024-07-18' }
   ]);
 
+  const [title, setTitle] = useState("");
+  const [date, setDate] = useState("");
+
   const addEvent = () => {
     const newEvent = { title: 'New Event', date: new Date().toISOString().split('T')[0] };
     //setEvents([...events, newEvent]);
+  };
+
+  useEffect(() => {
+    getLoggedInfo();
+  }, []);
+
+const getLoggedInfo = async () => {
+
+    if (auth.currentUser == null) {
+      navigate("/");
+      return;
+    }
+
+    const currentuid = auth.currentUser.uid;
+    //setCurrentUser(currentuid);
+    const dbRef = ref(db, "user/" + currentuid + "/events");
+    
+    const snapshot = await get(dbRef);
+    if (snapshot.exists()) {
+      const fetchedData = snapshot.val();
+      setEvents(fetchedData);
+
+    } else {
+      alert("no data found");
+    }
   };
 
   const [open, setOpen] = useState(false);
@@ -35,7 +66,16 @@ function Calendar() {
 
   const handleSaveEvent = () => {
     // Add your save logic here
+    const newEvent = { title: title, start: date, allDay: true };
+    // Add the new event to the existing events
+    const updatedEvents = [...events, newEvent];
+    setEvents(updatedEvents);
+    const currentuid = auth.currentUser.uid;
+    const dbRef = ref(db, "user/" + currentuid + "/events");
+    set(dbRef, updatedEvents);
+
     console.log("Event saved");
+
     setOpen(false);
   };
 
@@ -68,16 +108,16 @@ function Calendar() {
               Work in Progress (Calendar Tab)
 
               {/* Add Modal */}
-              <EventPopup open={open} handleClose={handleCloseNewsletterModal} handleSave={handleSaveEvent}/>
+              <EventPopup open={open} handleClose={handleCloseNewsletterModal} handleSave={handleSaveEvent} setDate={setDate} setTitle={setTitle}/>
             </div>
             {/* Calendar Object */}
             <FullCalendar
-              plugins={[dayGridPlugin]}
+              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
               initialView={"dayGridMonth"}
               headerToolbar={{
-                start: "addEventButton",
+                start: "addEventButton prev,next",
                 center: "title",
-                end: "today prev,next",
+                end: "today dayGridMonth,timeGridWeek"
               }}
               customButtons={{
                 addEventButton: {
@@ -87,6 +127,8 @@ function Calendar() {
               }}
               weekends={true}
               events={events}
+              editable = {true}
+              droppable={true}
             />
           </div>
         </main>

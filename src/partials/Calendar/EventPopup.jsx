@@ -5,7 +5,7 @@ import { styled } from '@mui/system';
 
 
 
-const EventPopup = ({ open, handleClose, handleSave }) => {
+const EventPopup = ({ open, handleClose, handleSave, setDate, setTitle }) => {
     return (
         <Modal
           open={open}
@@ -38,6 +38,7 @@ const EventPopup = ({ open, handleClose, handleSave }) => {
                 id="event-name"
                 label="Event Name"
                 variant="outlined"
+                onChange={(ev) => setTitle(ev.target.value)}
               />
               <TextField
                 fullWidth
@@ -46,6 +47,7 @@ const EventPopup = ({ open, handleClose, handleSave }) => {
                 label="Event Date"
                 type="date"
                 variant="outlined"
+                onChange={(ev) => setDate(ev.target.value)}
                 InputLabelProps={{
                   shrink: true,
                 }}
