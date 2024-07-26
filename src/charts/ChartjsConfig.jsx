@@ -24,12 +24,13 @@ Chart.register({
   // eslint-disable-next-line object-shorthand
   beforeDraw: (chart) => {
     if (chart.config.options.chartArea && chart.config.options.chartArea.backgroundColor) {
+      
       const ctx = chart.canvas.getContext('2d');
       const { chartArea } = chart;
       ctx.save();
       ctx.fillStyle = chart.config.options.chartArea.backgroundColor;
       // eslint-disable-next-line max-len
-      ctx.fillRect(chartArea.left, chartArea.top, chartArea.right - chartArea.left, chartArea.bottom - chartArea.top);
+      //ctx.fillRect(chartArea.left, chartArea.top, chartArea.right - chartArea.left, chartArea.bottom - chartArea.top);
       ctx.restore();
     }
   },

@@ -25,7 +25,7 @@ import { db } from "../firebase/firebase-config";
 import { get, ref, set, update} from "firebase/database";
 import DropdownFilter from '../components/DropdownFilter';
 import { DndContext, KeyboardSensor, useSensor, useSensors, MouseSensor } from '@dnd-kit/core';
-import { SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import { SortableContext, rectSortingStrategy, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { SortableCard } from '../partials/dashboard/SortableCards';
 
 function Dashboard() {
@@ -147,7 +147,7 @@ function Dashboard() {
     }),
     useSensor(MouseSensor, {
       activationConstraint: {
-        delay: 25
+        distance: 2
       },
     })
   );
@@ -187,7 +187,7 @@ function Dashboard() {
             {/* Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
-                <SortableContext items={dashboardState.filter(card => card.visible).map(card => card.id)}>
+                <SortableContext items={dashboardState.filter(card => card.visible).map(card => card.id)} strategy={rectSortingStrategy}>
                   {dashboardState.map(renderCard)}
                 </SortableContext>
               </DndContext>

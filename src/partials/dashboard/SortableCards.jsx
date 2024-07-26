@@ -15,8 +15,8 @@ export const SortableCard = ({ id, component: Component, currentUid, updateDashb
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    zIndex: isDragging ? 1000 : 'auto',
-    gridColumn: 'span 1', // Allow grid to auto place cards
+    // zIndex: isDragging ? 1000 : 'auto',
+    // gridColumn: 'span 1', // Allow grid to auto place cards
   };
 
   return (
