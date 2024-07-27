@@ -1,0 +1,33 @@
+.task {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    touch-action: none;
+  }
+  
+  .checkbox {
+    height: 20px;
+    width: 20px;
+  }
+
+  .inputWithButton {
+    right: 0;
+    background-color: #9104aa;
+    border: none;
+    color: white;
+    padding: 16px;
+    text-align: right;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    align-items: right;
+  }

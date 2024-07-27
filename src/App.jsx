@@ -25,7 +25,7 @@ import Shop from './pages/Commerce/Shop';
 import Users from './pages/Community/Users';
 import Project from './pages/Community/Project';
 import Employees from './pages/Community/Employees';
-import List from './pages/Task/List';
+import List from './pages/Task-tab/List';
 import Message from './pages/Message';
 import Inbox from './pages/Inbox';
 import Calendar from './pages/Calendar';
