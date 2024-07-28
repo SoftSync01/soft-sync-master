@@ -360,3 +360,7 @@ export function DailyTrafficCard() {
         </div>
     );
 }
+
+
+module.exports = calculateGrowthRates;
+module.exports = calculateProfitMargins;
