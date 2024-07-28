@@ -48,7 +48,7 @@ function Dashboard() {
   ]);
   const [DateRange, setDateRange] = useState([]);
   const [Days, setDays] = useState(7);
-
+  const [username, setUsername] = useState("");
 
   const navigate = useNavigate();
 
@@ -81,17 +81,17 @@ function Dashboard() {
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
       const fetchedData = snapshot.val();
-
-    const transformedData = Object.keys(fetchedData).map(key => {
-      const dbItem = fetchedData[key];
-      const componentItem = dashboardState.find(item => item.id === key);
-      if (componentItem) {
-        return { id: key, ...dbItem, component: componentItem.component };
-      } else {
-        console.warn(`Component not found for key: ${key}`);
-        return { id: key, ...dbItem, component: null };
-      }
-    }).filter(item => item.component !== null); // Filter out items with no component
+      setUsername(fetchedData.username);
+      const transformedData = Object.keys(fetchedData).map(key => {
+        const dbItem = fetchedData[key];
+        const componentItem = dashboardState.find(item => item.id === key);
+        if (componentItem) {
+          return { id: key, ...dbItem, component: componentItem.component };
+        } else {
+          console.warn(`Component not found for key: ${key}`);
+          return { id: key, ...dbItem, component: null };
+        }
+      }).filter(item => item.component !== null); // Filter out items with no component
 
     // Sort based on position
     transformedData.sort((a, b) => a.position - b.position);
@@ -160,12 +160,12 @@ function Dashboard() {
       {/* Content area */}
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         {/* Site header */}
-        <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <Header  username = {username} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         <main>
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
             {/* Welcome banner */}
-            <WelcomeBanner />
+            <WelcomeBanner username = {username}/>
 
             {/* Dashboard actions */}
             <div className="sm:flex sm:justify-between sm:items-center mb-8">

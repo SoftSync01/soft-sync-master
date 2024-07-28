@@ -31,6 +31,7 @@ import Inbox from './pages/Inbox';
 import Calendar from './pages/Calendar';
 import Account from './pages/Settings/Account';
 import Noti from './pages/Settings/Noti';
+import Signup from './pages/Signup'
 
 function App() {
 
@@ -46,6 +47,7 @@ function App() {
     <>
       <Routes>
           <Route exact path="/" element={<Login />} />
+          <Route exact path="/signup" element={<Signup />} />
           <Route exact path="/dashboard" element={<Dashboard />} />
           <Route exact path="/dashboard/analytics" element={<Analytics />} />
           <Route exact path="/finance" element={<Transactions />} />
@@ -62,6 +64,7 @@ function App() {
           <Route exact path="/calendar" element={<Calendar />} />
           <Route exact path="/settings/account" element={<Account />} />
           <Route exact path="/settings/notifications" element={<Noti />} />
+
 
       </Routes>
     </>

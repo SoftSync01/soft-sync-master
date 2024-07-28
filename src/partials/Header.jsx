@@ -6,7 +6,7 @@ import Help from '../components/DropdownHelp';
 import UserMenu from '../components/DropdownProfile';
 import ThemeToggle from '../components/ThemeToggle';
 
-function Header({ sidebarOpen, setSidebarOpen }) {
+function Header({ sidebarOpen, setSidebarOpen, username }) {
   const [searchModalOpen, setSearchModalOpen] = useState(false);
 
   return (
@@ -66,7 +66,7 @@ function Header({ sidebarOpen, setSidebarOpen }) {
             <ThemeToggle />
             {/*  Divider */}
             <hr className="w-px h-6 bg-slate-200 dark:bg-slate-700 border-none" />
-            <UserMenu align="right" />
+            <UserMenu align="right" username = {username} />
           </div>
         </div>
       </div>
