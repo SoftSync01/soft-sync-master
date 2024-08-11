@@ -21,9 +21,13 @@ export const Input = ({ onSubmit }) => {
         value={input}
         onChange={(e) => setInput(e.target.value)}
       />
+      <p>
       <button onClick={handleSubmit} className="button dark:bg-slate-700" >
         Add
       </button>
+      </p>
+        
+      
     </div>
   );
 };

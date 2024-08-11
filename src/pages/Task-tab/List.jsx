@@ -57,11 +57,21 @@ function List() {
   };
 
   const addTask = (title) => {
+    // Check if the task already exists
+    const taskExists = tasks.some((task) => task.title === title);
+  
+    if (taskExists) {
+      alert("Task with this title already exists.");
+      return; // Exit the function if a duplicate task is found
+    }
+  
     const currentuid = auth.currentUser.uid;
     const dbRef = ref(db, "user/" + currentuid + "/tasks");
-    setTasks((tasks) => [...tasks, { id: tasks.length + 1, title }]);
-    console.log(tasks)
-    set(dbRef, tasks);
+    
+    // Add the new task
+    const newTasks = [...tasks, { id: tasks.length + 1, title }];
+    setTasks(newTasks);
+    set(dbRef, newTasks);
   };
 
   const handleRemoveTask = (id) => {

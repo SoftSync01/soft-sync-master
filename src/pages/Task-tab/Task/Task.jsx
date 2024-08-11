@@ -23,10 +23,11 @@ export const Task = ({ id, title, onRemove }) => {
             console.log("Checkbox clicked:", id);  // Add this line
         onCheckChange(id);
         }} /> */}
-
-      {title}
-      <div class="align-right ">
-      <button className="btn btn-success btn-lg float-right inputWithButton  dark:bg-slate-900" type="submit" onClick={handleSubmit}>remove</button>
+      <div>
+        {title}
+      </div>
+      <div class="mr-0 ml-auto ">
+            <input type="button" class="btn mr-0 ml-auto" value="Remove" onClick={handleSubmit}></input>
       </div>
     </div>
   );

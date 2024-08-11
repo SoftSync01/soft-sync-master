@@ -10,10 +10,22 @@
     gap: 20px;
     touch-action: none;
   }
+
+  .btn {
+    background-color: #9104aa;
+    color: white;
+  }
   
   .checkbox {
     height: 20px;
     width: 20px;
+  }
+
+  .mr-0 {
+    margin-right: 0;
+  }
+  .ml-auto {
+    margin-left:auto;
   }
 
   .inputWithButton {
@@ -31,3 +43,23 @@
     cursor: pointer;
     align-items: right;
   }
+
+
+.d-table-cell {
+  display:table-cell;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.tar {
+  text-align: right;
+}
+
+.flex-box {
+  background-color: #9104aa;
+  display:flex;
+  justify-content:space-between;
+  outline: 2px dashed blue;
+}

@@ -16,3 +16,10 @@
     background-color: #2563eb;
     color: white;
   }
+
+  .mr-0 {
+    margin-right: 0;
+  }
+  .ml-auto {
+    margin-left:auto;
+  }
