@@ -75,9 +75,25 @@ function List() {
   };
 
   const handleRemoveTask = (id) => {
-    setTasks((tasks) => tasks.filter((task) => task.id !== id));
-    console.log(tasks)
+    // Filter out the task with the specified id
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    console.log(tasks);
+    
+    // Reassign IDs to ensure they are consecutive
+    const reorderedTasks = updatedTasks.map((task, index) => ({
+      ...task,
+      id: index + 1,
+    }));
+  
+    // Update the state with the reordered tasks
+    setTasks(reorderedTasks);
+  
+    // Update the Firebase database with the reordered tasks
+    const currentuid = auth.currentUser.uid;
+    const dbRef = ref(db, "user/" + currentuid + "/tasks");
+    set(dbRef, reorderedTasks);
   };
+  
 
   const sensors = useSensors(
     useSensor(PointerSensor, {

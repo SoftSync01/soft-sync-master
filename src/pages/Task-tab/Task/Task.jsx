@@ -27,7 +27,7 @@ export const Task = ({ id, title, onRemove }) => {
         {title}
       </div>
       <div class="mr-0 ml-auto ">
-            <input type="button" class="btn mr-0 ml-auto" value="Remove" onClick={handleSubmit}></input>
+            <input type="button" class="btn1 mr-0 ml-auto" value="Remove" onClick={handleSubmit}></input>
       </div>
     </div>
   );

@@ -11,9 +11,12 @@
     touch-action: none;
   }
 
-  .btn {
+  .btn1 {
     background-color: #9104aa;
     color: white;
+    padding: 16px;
+    display:flex;
+    border-radius: 4px;
   }
   
   .checkbox {
