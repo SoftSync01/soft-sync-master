@@ -18,16 +18,12 @@ function Calendar() {
 
   const [events, setEvents] = useState([
     { title: 'My Event', start: '2024-07-08T07:30:00', allDay: true },
-    { title: 'event 2', date: '2024-07-18' }
+    { title: 'event 2', start: '2024-07-18' }
   ]);
 
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
 
-  const addEvent = () => {
-    const newEvent = { title: 'New Event', date: new Date().toISOString().split('T')[0] };
-    //setEvents([...events, newEvent]);
-  };
 
   useEffect(() => {
     getLoggedInfo();
@@ -77,6 +73,27 @@ const getLoggedInfo = async () => {
     console.log("Event saved");
 
     setOpen(false);
+  };
+
+  const handleEventClick = (clickInfo) => {
+    const eventTitle = clickInfo.event.title;
+    //const eventDate = clickInfo.event.start;
+    const eventDate = new Date(clickInfo.event.start.getTime() - (clickInfo.event.start.getTimezoneOffset() * 60000))
+    .toISOString()
+    .split('T')[0];
+
+    const updatedEvents = events.filter(event => {
+      // Check if both the title and date match
+      return !(event.title === eventTitle && new Date(event.start).getTime() === new Date(eventDate).getTime());
+    });
+    
+    setEvents(updatedEvents);
+
+    const currentuid = auth.currentUser.uid;
+    const dbRef = ref(db, "user/" + currentuid + "/events");
+    set(dbRef, updatedEvents);
+
+    console.log("Event removed");
   };
 
   const modal = document.querySelector("#modal");
@@ -129,6 +146,7 @@ const getLoggedInfo = async () => {
               events={events}
               editable = {true}
               droppable={true}
+              eventClick={handleEventClick}
             />
           </div>
         </main>
