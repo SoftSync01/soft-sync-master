@@ -32,9 +32,9 @@ function List() {
 
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   getLoggedInfo();
-  // }, []);
+  useEffect(() => {
+    getLoggedInfo();
+  }, []);
 
   const getLoggedInfo = async () => {
 
